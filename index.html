@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Resume Viewer</title>
+  <style>
+    html,body{height:100%}
+    body{font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Helvetica,Arial,sans-serif; margin:0; padding:0; background:#0b0f14; color:#e6e8ee; display:flex; flex-direction:column; min-height:100vh}
+    header{padding:18px 18px 12px 18px; border-bottom:1px solid #242b38; background:#0b0f14}
+    .row{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+    .stack{margin-top:10px}
+    select{padding:8px 10px; border-radius:10px; border:1px solid #242b38; background:#111827; color:#e6e8ee}
+    button{padding:8px 10px; border-radius:10px; border:1px solid #242b38; background:#111827; color:#e6e8ee; cursor:pointer}
+    button:hover{background:#0f172a}
+    a{color:#93c5fd; text-decoration:none}
+    a:hover{text-decoration:underline}
+    .muted{color:#a6adbb}
+    details.panel{margin-top:12px; border:1px solid #242b38; border-radius:14px; background:#0f172a}
+    details.panel > summary{cursor:pointer; padding:10px 12px; display:flex; justify-content:space-between; gap:12px}
+    details.panel[open] > summary{border-bottom:1px solid #242b38}
+    .panel__body{padding:10px 12px}
+    main{flex:1; display:flex; min-height:0}
+    iframe{flex:1; width:100%; border:0; background:#ffffff}
+    @media (max-width: 900px){
+      header{padding:14px 14px 10px 14px}
+      details.panel{border-radius:12px}
+      select,button{width:100%}
+      .row.stack{flex-direction:column; align-items:stretch}
+      details.panel > summary{flex-direction:column; align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="row">
+    <div style="font-weight:700" data-i18n="ui.resume_viewer">Resume Viewer</div>
+    <div class="muted" data-i18n="ui.pick_layout_theme">Pick a layout + theme. Print inside the resume page for a styled PDF.</div>
+  </div>
+
+  <div class="row stack">
+    <label class="muted" for="lang" data-i18n="ui.language">Language</label>
+    <select id="lang"></select>
+
+    <label class="muted" for="tpl" data-i18n="ui.template">Template</label>
+    <select id="tpl"></select>
+
+    <label class="muted" for="theme" data-i18n="ui.theme">Theme</label>
+    <select id="theme"></select>
+
+    <a id="openLink" href="#" target="_blank" rel="noopener" data-i18n="ui.open_new_tab">Open in new tab</a>
+  </div>
+
+  <details id="controlsPanel" class="panel" open>
+    <summary>
+      <span data-i18n="ui.more_controls">More controls</span>
+      <span class="muted" data-i18n="ui.panel_hint">Details • Sections • Tools</span>
+    </summary>
+    <div class="panel__body">
+      <div class="row">
+        <div class="muted" style="margin-right:8px" data-i18n="ui.details">Details</div>
+        <label class="muted"><input type="checkbox" id="toggleAcademic" checked style="margin-right:6px"/><span data-i18n="ui.academic_record">Academic record</span></label>
+        <label class="muted"><input type="checkbox" id="toggleCourseDesc" checked style="margin-right:6px"/><span data-i18n="ui.course_descriptions">Course descriptions</span></label>
+        <label class="muted"><input type="checkbox" id="toggleCourseSkills" checked style="margin-right:6px"/><span data-i18n="ui.course_skills">Course skills</span></label>
+        <label class="muted"><input type="checkbox" id="toggleCertDesc" checked style="margin-right:6px"/><span data-i18n="ui.cert_descriptions">Certification descriptions</span></label>
+        <label class="muted"><input type="checkbox" id="toggleCertSkills" checked style="margin-right:6px"/><span data-i18n="ui.cert_skills">Certification skills</span></label>
+        <label class="muted"><input type="checkbox" id="toggleTrainingDesc" checked style="margin-right:6px"/><span data-i18n="ui.training_explanations">Training explanations</span></label>
+        <label class="muted"><input type="checkbox" id="toggleTrainingSkills" checked style="margin-right:6px"/><span data-i18n="ui.training_skills">Training skills</span></label>
+        <label class="muted"><input type="checkbox" id="toggleJobDesc" checked style="margin-right:6px"/><span data-i18n="ui.job_explanations">Job explanations</span></label>
+        <label class="muted"><input type="checkbox" id="toggleAwardDesc" checked style="margin-right:6px"/><span data-i18n="ui.award_explanations">Award explanations</span></label>
+        <label class="muted"><input type="checkbox" id="toggleAppendix" checked style="margin-right:6px"/><span data-i18n="ui.transcript_appendices">Transcript appendices</span></label>
+        <span class="muted" style="margin-left:6px" data-i18n="ui.controls_above_resume_note">(Controls live above the resume.)</span>
+      </div>
+
+      <div class="row">
+        <div class="muted" style="margin-right:8px" data-i18n="ui.sections">Sections</div>
+        <button id="expandAll" type="button" data-i18n="ui.expand_all">Expand all</button>
+        <button id="collapseAll" type="button" data-i18n="ui.collapse_all">Collapse all</button>
+        <span class="muted" style="margin-left:6px" data-i18n="ui.section_click_hint">(You can also click any section heading inside the resume.)</span>
+      </div>
+      <div class="row">
+        <div class="muted" style="margin-right:8px" data-i18n="ui.tools">Tools</div>
+        <a id="cardsLink" href="cards/index.html" target="_blank" rel="noopener" data-i18n="ui.business_cards">Business cards</a>
+        <span class="muted">•</span>
+        <a id="vcardLink" href="cards/contact.vcf" target="_blank" rel="noopener" data-i18n="ui.download_vcard">Download vCard</a>
+      </div>
+    </div>
+  </details>
+</header>
+<main>
+  <iframe id="frame" title="Resume preview" src=""></iframe>
+</main>
+
+<script>
+  const pages = [{"label": "resume_master_ats_light", "filename": "resume_master_ats_light.html", "template": "ats", "theme": "light"}, {"label": "resume_master_ats_slate", "filename": "resume_master_ats_slate.html", "template": "ats", "theme": "slate"}, {"label": "resume_master_ats_dark", "filename": "resume_master_ats_dark.html", "template": "ats", "theme": "dark"}, {"label": "resume_master_ats_army", "filename": "resume_master_ats_army.html", "template": "ats", "theme": "army"}, {"label": "resume_master_ats_navy", "filename": "resume_master_ats_navy.html", "template": "ats", "theme": "navy"}, {"label": "resume_master_ats_midnight", "filename": "resume_master_ats_midnight.html", "template": "ats", "theme": "midnight"}, {"label": "resume_master_ats_sand", "filename": "resume_master_ats_sand.html", "template": "ats", "theme": "sand"}, {"label": "resume_master_ats_plum", "filename": "resume_master_ats_plum.html", "template": "ats", "theme": "plum"}, {"label": "resume_master_ats_terminal", "filename": "resume_master_ats_terminal.html", "template": "ats", "theme": "terminal"}, {"label": "resume_master_ats_cobalt", "filename": "resume_master_ats_cobalt.html", "template": "ats", "theme": "cobalt"}, {"label": "resume_master_ats_graphite", "filename": "resume_master_ats_graphite.html", "template": "ats", "theme": "graphite"}, {"label": "resume_master_ats_emerald", "filename": "resume_master_ats_emerald.html", "template": "ats", "theme": "emerald"}, {"label": "resume_master_ats_ruby", "filename": "resume_master_ats_ruby.html", "template": "ats", "theme": "ruby"}, {"label": "resume_master_ats_sunset", "filename": "resume_master_ats_sunset.html", "template": "ats", "theme": "sunset"}, {"label": "resume_master_ats_paper", "filename": "resume_master_ats_paper.html", "template": "ats", "theme": "paper"}, {"label": "resume_master_ats_forest", "filename": "resume_master_ats_forest.html", "template": "ats", "theme": "forest"}, {"label": "resume_master_ats_copper", "filename": "resume_master_ats_copper.html", "template": "ats", "theme": "copper"}, {"label": "resume_master_ats_ice", "filename": "resume_master_ats_ice.html", "template": "ats", "theme": "ice"}, {"label": "resume_master_modern_light", "filename": "resume_master_modern_light.html", "template": "modern", "theme": "light"}, {"label": "resume_master_modern_slate", "filename": "resume_master_modern_slate.html", "template": "modern", "theme": "slate"}, {"label": "resume_master_modern_dark", "filename": "resume_master_modern_dark.html", "template": "modern", "theme": "dark"}, {"label": "resume_master_modern_army", "filename": "resume_master_modern_army.html", "template": "modern", "theme": "army"}, {"label": "resume_master_modern_navy", "filename": "resume_master_modern_navy.html", "template": "modern", "theme": "navy"}, {"label": "resume_master_modern_midnight", "filename": "resume_master_modern_midnight.html", "template": "modern", "theme": "midnight"}, {"label": "resume_master_modern_sand", "filename": "resume_master_modern_sand.html", "template": "modern", "theme": "sand"}, {"label": "resume_master_modern_plum", "filename": "resume_master_modern_plum.html", "template": "modern", "theme": "plum"}, {"label": "resume_master_modern_terminal", "filename": "resume_master_modern_terminal.html", "template": "modern", "theme": "terminal"}, {"label": "resume_master_modern_cobalt", "filename": "resume_master_modern_cobalt.html", "template": "modern", "theme": "cobalt"}, {"label": "resume_master_modern_graphite", "filename": "resume_master_modern_graphite.html", "template": "modern", "theme": "graphite"}, {"label": "resume_master_modern_emerald", "filename": "resume_master_modern_emerald.html", "template": "modern", "theme": "emerald"}, {"label": "resume_master_modern_ruby", "filename": "resume_master_modern_ruby.html", "template": "modern", "theme": "ruby"}, {"label": "resume_master_modern_sunset", "filename": "resume_master_modern_sunset.html", "template": "modern", "theme": "sunset"}, {"label": "resume_master_modern_paper", "filename": "resume_master_modern_paper.html", "template": "modern", "theme": "paper"}, {"label": "resume_master_modern_forest", "filename": "resume_master_modern_forest.html", "template": "modern", "theme": "forest"}, {"label": "resume_master_modern_copper", "filename": "resume_master_modern_copper.html", "template": "modern", "theme": "copper"}, {"label": "resume_master_modern_ice", "filename": "resume_master_modern_ice.html", "template": "modern", "theme": "ice"}, {"label": "resume_master_sidebar_light", "filename": "resume_master_sidebar_light.html", "template": "sidebar", "theme": "light"}, {"label": "resume_master_sidebar_slate", "filename": "resume_master_sidebar_slate.html", "template": "sidebar", "theme": "slate"}, {"label": "resume_master_sidebar_dark", "filename": "resume_master_sidebar_dark.html", "template": "sidebar", "theme": "dark"}, {"label": "resume_master_sidebar_army", "filename": "resume_master_sidebar_army.html", "template": "sidebar", "theme": "army"}, {"label": "resume_master_sidebar_navy", "filename": "resume_master_sidebar_navy.html", "template": "sidebar", "theme": "navy"}, {"label": "resume_master_sidebar_midnight", "filename": "resume_master_sidebar_midnight.html", "template": "sidebar", "theme": "midnight"}, {"label": "resume_master_sidebar_sand", "filename": "resume_master_sidebar_sand.html", "template": "sidebar", "theme": "sand"}, {"label": "resume_master_sidebar_plum", "filename": "resume_master_sidebar_plum.html", "template": "sidebar", "theme": "plum"}, {"label": "resume_master_sidebar_terminal", "filename": "resume_master_sidebar_terminal.html", "template": "sidebar", "theme": "terminal"}, {"label": "resume_master_sidebar_cobalt", "filename": "resume_master_sidebar_cobalt.html", "template": "sidebar", "theme": "cobalt"}, {"label": "resume_master_sidebar_graphite", "filename": "resume_master_sidebar_graphite.html", "template": "sidebar", "theme": "graphite"}, {"label": "resume_master_sidebar_emerald", "filename": "resume_master_sidebar_emerald.html", "template": "sidebar", "theme": "emerald"}, {"label": "resume_master_sidebar_ruby", "filename": "resume_master_sidebar_ruby.html", "template": "sidebar", "theme": "ruby"}, {"label": "resume_master_sidebar_sunset", "filename": "resume_master_sidebar_sunset.html", "template": "sidebar", "theme": "sunset"}, {"label": "resume_master_sidebar_paper", "filename": "resume_master_sidebar_paper.html", "template": "sidebar", "theme": "paper"}, {"label": "resume_master_sidebar_forest", "filename": "resume_master_sidebar_forest.html", "template": "sidebar", "theme": "forest"}, {"label": "resume_master_sidebar_copper", "filename": "resume_master_sidebar_copper.html", "template": "sidebar", "theme": "copper"}, {"label": "resume_master_sidebar_ice", "filename": "resume_master_sidebar_ice.html", "template": "sidebar", "theme": "ice"}, {"label": "resume_master_compact_light", "filename": "resume_master_compact_light.html", "template": "compact", "theme": "light"}, {"label": "resume_master_compact_slate", "filename": "resume_master_compact_slate.html", "template": "compact", "theme": "slate"}, {"label": "resume_master_compact_dark", "filename": "resume_master_compact_dark.html", "template": "compact", "theme": "dark"}, {"label": "resume_master_compact_army", "filename": "resume_master_compact_army.html", "template": "compact", "theme": "army"}, {"label": "resume_master_compact_navy", "filename": "resume_master_compact_navy.html", "template": "compact", "theme": "navy"}, {"label": "resume_master_compact_midnight", "filename": "resume_master_compact_midnight.html", "template": "compact", "theme": "midnight"}, {"label": "resume_master_compact_sand", "filename": "resume_master_compact_sand.html", "template": "compact", "theme": "sand"}, {"label": "resume_master_compact_plum", "filename": "resume_master_compact_plum.html", "template": "compact", "theme": "plum"}, {"label": "resume_master_compact_terminal", "filename": "resume_master_compact_terminal.html", "template": "compact", "theme": "terminal"}, {"label": "resume_master_compact_cobalt", "filename": "resume_master_compact_cobalt.html", "template": "compact", "theme": "cobalt"}, {"label": "resume_master_compact_graphite", "filename": "resume_master_compact_graphite.html", "template": "compact", "theme": "graphite"}, {"label": "resume_master_compact_emerald", "filename": "resume_master_compact_emerald.html", "template": "compact", "theme": "emerald"}, {"label": "resume_master_compact_ruby", "filename": "resume_master_compact_ruby.html", "template": "compact", "theme": "ruby"}, {"label": "resume_master_compact_sunset", "filename": "resume_master_compact_sunset.html", "template": "compact", "theme": "sunset"}, {"label": "resume_master_compact_paper", "filename": "resume_master_compact_paper.html", "template": "compact", "theme": "paper"}, {"label": "resume_master_compact_forest", "filename": "resume_master_compact_forest.html", "template": "compact", "theme": "forest"}, {"label": "resume_master_compact_copper", "filename": "resume_master_compact_copper.html", "template": "compact", "theme": "copper"}, {"label": "resume_master_compact_ice", "filename": "resume_master_compact_ice.html", "template": "compact", "theme": "ice"}, {"label": "resume_master_dossier_light", "filename": "resume_master_dossier_light.html", "template": "dossier", "theme": "light"}, {"label": "resume_master_dossier_slate", "filename": "resume_master_dossier_slate.html", "template": "dossier", "theme": "slate"}, {"label": "resume_master_dossier_dark", "filename": "resume_master_dossier_dark.html", "template": "dossier", "theme": "dark"}, {"label": "resume_master_dossier_army", "filename": "resume_master_dossier_army.html", "template": "dossier", "theme": "army"}, {"label": "resume_master_dossier_navy", "filename": "resume_master_dossier_navy.html", "template": "dossier", "theme": "navy"}, {"label": "resume_master_dossier_midnight", "filename": "resume_master_dossier_midnight.html", "template": "dossier", "theme": "midnight"}, {"label": "resume_master_dossier_sand", "filename": "resume_master_dossier_sand.html", "template": "dossier", "theme": "sand"}, {"label": "resume_master_dossier_plum", "filename": "resume_master_dossier_plum.html", "template": "dossier", "theme": "plum"}, {"label": "resume_master_dossier_terminal", "filename": "resume_master_dossier_terminal.html", "template": "dossier", "theme": "terminal"}, {"label": "resume_master_dossier_cobalt", "filename": "resume_master_dossier_cobalt.html", "template": "dossier", "theme": "cobalt"}, {"label": "resume_master_dossier_graphite", "filename": "resume_master_dossier_graphite.html", "template": "dossier", "theme": "graphite"}, {"label": "resume_master_dossier_emerald", "filename": "resume_master_dossier_emerald.html", "template": "dossier", "theme": "emerald"}, {"label": "resume_master_dossier_ruby", "filename": "resume_master_dossier_ruby.html", "template": "dossier", "theme": "ruby"}, {"label": "resume_master_dossier_sunset", "filename": "resume_master_dossier_sunset.html", "template": "dossier", "theme": "sunset"}, {"label": "resume_master_dossier_paper", "filename": "resume_master_dossier_paper.html", "template": "dossier", "theme": "paper"}, {"label": "resume_master_dossier_forest", "filename": "resume_master_dossier_forest.html", "template": "dossier", "theme": "forest"}, {"label": "resume_master_dossier_copper", "filename": "resume_master_dossier_copper.html", "template": "dossier", "theme": "copper"}, {"label": "resume_master_dossier_ice", "filename": "resume_master_dossier_ice.html", "template": "dossier", "theme": "ice"}, {"label": "resume_master_timeline_light", "filename": "resume_master_timeline_light.html", "template": "timeline", "theme": "light"}, {"label": "resume_master_timeline_slate", "filename": "resume_master_timeline_slate.html", "template": "timeline", "theme": "slate"}, {"label": "resume_master_timeline_dark", "filename": "resume_master_timeline_dark.html", "template": "timeline", "theme": "dark"}, {"label": "resume_master_timeline_army", "filename": "resume_master_timeline_army.html", "template": "timeline", "theme": "army"}, {"label": "resume_master_timeline_navy", "filename": "resume_master_timeline_navy.html", "template": "timeline", "theme": "navy"}, {"label": "resume_master_timeline_midnight", "filename": "resume_master_timeline_midnight.html", "template": "timeline", "theme": "midnight"}, {"label": "resume_master_timeline_sand", "filename": "resume_master_timeline_sand.html", "template": "timeline", "theme": "sand"}, {"label": "resume_master_timeline_plum", "filename": "resume_master_timeline_plum.html", "template": "timeline", "theme": "plum"}, {"label": "resume_master_timeline_terminal", "filename": "resume_master_timeline_terminal.html", "template": "timeline", "theme": "terminal"}, {"label": "resume_master_timeline_cobalt", "filename": "resume_master_timeline_cobalt.html", "template": "timeline", "theme": "cobalt"}, {"label": "resume_master_timeline_graphite", "filename": "resume_master_timeline_graphite.html", "template": "timeline", "theme": "graphite"}, {"label": "resume_master_timeline_emerald", "filename": "resume_master_timeline_emerald.html", "template": "timeline", "theme": "emerald"}, {"label": "resume_master_timeline_ruby", "filename": "resume_master_timeline_ruby.html", "template": "timeline", "theme": "ruby"}, {"label": "resume_master_timeline_sunset", "filename": "resume_master_timeline_sunset.html", "template": "timeline", "theme": "sunset"}, {"label": "resume_master_timeline_paper", "filename": "resume_master_timeline_paper.html", "template": "timeline", "theme": "paper"}, {"label": "resume_master_timeline_forest", "filename": "resume_master_timeline_forest.html", "template": "timeline", "theme": "forest"}, {"label": "resume_master_timeline_copper", "filename": "resume_master_timeline_copper.html", "template": "timeline", "theme": "copper"}, {"label": "resume_master_timeline_ice", "filename": "resume_master_timeline_ice.html", "template": "timeline", "theme": "ice"}, {"label": "resume_master_executive_light", "filename": "resume_master_executive_light.html", "template": "executive", "theme": "light"}, {"label": "resume_master_executive_slate", "filename": "resume_master_executive_slate.html", "template": "executive", "theme": "slate"}, {"label": "resume_master_executive_dark", "filename": "resume_master_executive_dark.html", "template": "executive", "theme": "dark"}, {"label": "resume_master_executive_army", "filename": "resume_master_executive_army.html", "template": "executive", "theme": "army"}, {"label": "resume_master_executive_navy", "filename": "resume_master_executive_navy.html", "template": "executive", "theme": "navy"}, {"label": "resume_master_executive_midnight", "filename": "resume_master_executive_midnight.html", "template": "executive", "theme": "midnight"}, {"label": "resume_master_executive_sand", "filename": "resume_master_executive_sand.html", "template": "executive", "theme": "sand"}, {"label": "resume_master_executive_plum", "filename": "resume_master_executive_plum.html", "template": "executive", "theme": "plum"}, {"label": "resume_master_executive_terminal", "filename": "resume_master_executive_terminal.html", "template": "executive", "theme": "terminal"}, {"label": "resume_master_executive_cobalt", "filename": "resume_master_executive_cobalt.html", "template": "executive", "theme": "cobalt"}, {"label": "resume_master_executive_graphite", "filename": "resume_master_executive_graphite.html", "template": "executive", "theme": "graphite"}, {"label": "resume_master_executive_emerald", "filename": "resume_master_executive_emerald.html", "template": "executive", "theme": "emerald"}, {"label": "resume_master_executive_ruby", "filename": "resume_master_executive_ruby.html", "template": "executive", "theme": "ruby"}, {"label": "resume_master_executive_sunset", "filename": "resume_master_executive_sunset.html", "template": "executive", "theme": "sunset"}, {"label": "resume_master_executive_paper", "filename": "resume_master_executive_paper.html", "template": "executive", "theme": "paper"}, {"label": "resume_master_executive_forest", "filename": "resume_master_executive_forest.html", "template": "executive", "theme": "forest"}, {"label": "resume_master_executive_copper", "filename": "resume_master_executive_copper.html", "template": "executive", "theme": "copper"}, {"label": "resume_master_executive_ice", "filename": "resume_master_executive_ice.html", "template": "executive", "theme": "ice"}, {"label": "resume_master_federal_light", "filename": "resume_master_federal_light.html", "template": "federal", "theme": "light"}, {"label": "resume_master_federal_slate", "filename": "resume_master_federal_slate.html", "template": "federal", "theme": "slate"}, {"label": "resume_master_federal_dark", "filename": "resume_master_federal_dark.html", "template": "federal", "theme": "dark"}, {"label": "resume_master_federal_army", "filename": "resume_master_federal_army.html", "template": "federal", "theme": "army"}, {"label": "resume_master_federal_navy", "filename": "resume_master_federal_navy.html", "template": "federal", "theme": "navy"}, {"label": "resume_master_federal_midnight", "filename": "resume_master_federal_midnight.html", "template": "federal", "theme": "midnight"}, {"label": "resume_master_federal_sand", "filename": "resume_master_federal_sand.html", "template": "federal", "theme": "sand"}, {"label": "resume_master_federal_plum", "filename": "resume_master_federal_plum.html", "template": "federal", "theme": "plum"}, {"label": "resume_master_federal_terminal", "filename": "resume_master_federal_terminal.html", "template": "federal", "theme": "terminal"}, {"label": "resume_master_federal_cobalt", "filename": "resume_master_federal_cobalt.html", "template": "federal", "theme": "cobalt"}, {"label": "resume_master_federal_graphite", "filename": "resume_master_federal_graphite.html", "template": "federal", "theme": "graphite"}, {"label": "resume_master_federal_emerald", "filename": "resume_master_federal_emerald.html", "template": "federal", "theme": "emerald"}, {"label": "resume_master_federal_ruby", "filename": "resume_master_federal_ruby.html", "template": "federal", "theme": "ruby"}, {"label": "resume_master_federal_sunset", "filename": "resume_master_federal_sunset.html", "template": "federal", "theme": "sunset"}, {"label": "resume_master_federal_paper", "filename": "resume_master_federal_paper.html", "template": "federal", "theme": "paper"}, {"label": "resume_master_federal_forest", "filename": "resume_master_federal_forest.html", "template": "federal", "theme": "forest"}, {"label": "resume_master_federal_copper", "filename": "resume_master_federal_copper.html", "template": "federal", "theme": "copper"}, {"label": "resume_master_federal_ice", "filename": "resume_master_federal_ice.html", "template": "federal", "theme": "ice"}, {"label": "resume_master_academia_light", "filename": "resume_master_academia_light.html", "template": "academia", "theme": "light"}, {"label": "resume_master_academia_slate", "filename": "resume_master_academia_slate.html", "template": "academia", "theme": "slate"}, {"label": "resume_master_academia_dark", "filename": "resume_master_academia_dark.html", "template": "academia", "theme": "dark"}, {"label": "resume_master_academia_army", "filename": "resume_master_academia_army.html", "template": "academia", "theme": "army"}, {"label": "resume_master_academia_navy", "filename": "resume_master_academia_navy.html", "template": "academia", "theme": "navy"}, {"label": "resume_master_academia_midnight", "filename": "resume_master_academia_midnight.html", "template": "academia", "theme": "midnight"}, {"label": "resume_master_academia_sand", "filename": "resume_master_academia_sand.html", "template": "academia", "theme": "sand"}, {"label": "resume_master_academia_plum", "filename": "resume_master_academia_plum.html", "template": "academia", "theme": "plum"}, {"label": "resume_master_academia_terminal", "filename": "resume_master_academia_terminal.html", "template": "academia", "theme": "terminal"}, {"label": "resume_master_academia_cobalt", "filename": "resume_master_academia_cobalt.html", "template": "academia", "theme": "cobalt"}, {"label": "resume_master_academia_graphite", "filename": "resume_master_academia_graphite.html", "template": "academia", "theme": "graphite"}, {"label": "resume_master_academia_emerald", "filename": "resume_master_academia_emerald.html", "template": "academia", "theme": "emerald"}, {"label": "resume_master_academia_ruby", "filename": "resume_master_academia_ruby.html", "template": "academia", "theme": "ruby"}, {"label": "resume_master_academia_sunset", "filename": "resume_master_academia_sunset.html", "template": "academia", "theme": "sunset"}, {"label": "resume_master_academia_paper", "filename": "resume_master_academia_paper.html", "template": "academia", "theme": "paper"}, {"label": "resume_master_academia_forest", "filename": "resume_master_academia_forest.html", "template": "academia", "theme": "forest"}, {"label": "resume_master_academia_copper", "filename": "resume_master_academia_copper.html", "template": "academia", "theme": "copper"}, {"label": "resume_master_academia_ice", "filename": "resume_master_academia_ice.html", "template": "academia", "theme": "ice"}];
+  const LANGS = [{"code": "en", "label": "English"}, {"code": "es", "label": "Español"}, {"code": "de", "label": "Deutsch"}, {"code": "pl", "label": "Polski"}, {"code": "ro", "label": "Română"}, {"code": "ru", "label": "Русский"}, {"code": "cs", "label": "Čeština"}];
+  const I18N = {"en": {"ui.resume_viewer": "Resume Viewer", "ui.pick_layout_theme": "Pick a layout + theme. Print inside the resume page for a styled PDF.", "ui.language": "Language", "ui.template": "Template", "ui.theme": "Theme", "ui.open_new_tab": "Open in new tab", "ui.more_controls": "More controls", "ui.panel_hint": "Details • Sections • Tools", "ui.details": "Details", "ui.academic_record": "Academic record", "ui.course_descriptions": "Course descriptions", "ui.course_skills": "Course skills", "ui.cert_descriptions": "Certification descriptions", "ui.cert_skills": "Certification skills", "ui.training_explanations": "Training explanations", "ui.training_skills": "Training skills", "ui.job_explanations": "Job explanations", "ui.award_explanations": "Award explanations", "ui.transcript_appendices": "Transcript appendices", "ui.controls_above_resume_note": "(Controls live above the resume.)", "ui.translation_incomplete": "Some text could not be translated.", "ui.retry": "Retry", "ui.sections": "Sections", "ui.expand_all": "Expand all", "ui.collapse_all": "Collapse all", "ui.section_click_hint": "(You can also click any section heading inside the resume.)", "ui.attachments": "Attachments", "ui.tools": "Tools", "ui.business_cards": "Business cards", "ui.download_vcard": "Download vCard", "ui.not_included_build": "(Not included in this build)", "ui.only_public_attachments": "(Only public attachments included; private docs hidden)", "ui.no_attachments_found": "(No attachments found)", "ui.unlock_label": "Unlock:", "ui.passphrase": "Passphrase", "ui.unlock_button": "Unlock", "ui.enter_passphrase": "Enter a passphrase.", "ui.incorrect": "Incorrect.", "ui.unlock_failed": "Unlock failed.", "ui.business_cards_title": "Business Cards", "ui.choose_design_theme": "Choose a design + theme. Print from the card page for exact 3.5×2\" sizing.", "ui.back_to_resume_viewer": "← Back to resume viewer", "ui.print_sheet": "Print 10-up sheet", "ui.design": "Design", "nav.skip_to_content": "Skip to content", "label.website": "Website", "label.responsibilities": "Responsibilities", "label.deliverables": "Deliverables", "section.summary": "Summary", "section.core_competencies": "Core Competencies", "section.experience": "Experience", "section.education": "Education", "section.certifications": "Certifications", "section.certifications_detailed": "Certifications (Detailed)", "section.publication": "Publication", "section.publications": "Publications", "section.selected_training": "Selected Training", "section.training": "Training", "section.training_military_detailed": "Training and Military Education (Detailed)", "section.awards_recognition": "Awards & Recognition", "section.awards": "Awards", "section.projects": "Projects", "section.links": "Links", "section.skills": "Skills", "section.core": "Core", "section.education_summary": "Education (Summary)", "section.academic_record_detailed": "Academic Record (Detailed)", "section.military_service_record": "Military Service Record", "template.ats": "ATS", "template.modern": "Modern", "template.sidebar": "Sidebar", "template.compact": "Compact", "template.dossier": "Dossier", "template.timeline": "Timeline", "template.executive": "Executive", "template.federal": "Federal (USAJobs)", "template.academia": "Academia", "theme.light": "Light", "theme.slate": "Slate", "theme.dark": "Dark", "theme.army": "Army", "theme.navy": "Navy", "theme.midnight": "Midnight", "theme.sand": "Sand", "theme.plum": "Plum", "theme.terminal": "Terminal", "theme.cobalt": "Cobalt", "theme.graphite": "Graphite", "theme.emerald": "Emerald", "theme.ruby": "Ruby", "theme.sunset": "Sunset", "theme.paper": "Paper", "theme.forest": "Forest", "theme.copper": "Copper", "theme.ice": "Ice", "design.classic": "Classic", "design.split": "Split", "design.minimal": "Minimal", "design.band": "Band", "design.terminal": "Terminal", "design.centered": "Centered", "ui.qr_alt": "QR code (vCard)", "ui.business_card_sheet_title": "Business Card Sheet"}, "es": {"ui.resume_viewer": "Visor de currículum", "ui.pick_layout_theme": "Elige un diseño y un tema. Imprime desde la página del currículum para generar un PDF con estilo.", "ui.language": "Idioma", "ui.template": "Plantilla", "ui.theme": "Tema", "ui.open_new_tab": "Abrir en una nueva pestaña", "ui.more_controls": "Más controles", "ui.panel_hint": "Detalles • Secciones • Herramientas", "ui.details": "Detalles", "ui.academic_record": "Historial académico", "ui.course_descriptions": "Descripciones de cursos", "ui.course_skills": "Habilidades de cursos", "ui.cert_descriptions": "Descripciones de certificaciones", "ui.cert_skills": "Habilidades de certificaciones", "ui.training_explanations": "Explicaciones de formación", "ui.training_skills": "Habilidades de formación", "ui.job_explanations": "Explicaciones de puestos", "ui.award_explanations": "Explicaciones de premios", "ui.transcript_appendices": "Apéndices de expedientes", "ui.controls_above_resume_note": "(Los controles están arriba del currículum.)", "ui.translation_incomplete": "No se pudo traducir parte del texto.", "ui.retry": "Reintentar", "ui.sections": "Secciones", "ui.expand_all": "Expandir todo", "ui.collapse_all": "Contraer todo", "ui.section_click_hint": "(También puedes hacer clic en cualquier encabezado de sección dentro del currículum.)", "ui.attachments": "Adjuntos", "ui.tools": "Herramientas", "ui.business_cards": "Tarjetas de presentación", "ui.download_vcard": "Descargar vCard", "ui.not_included_build": "(No incluido en esta versión)", "ui.only_public_attachments": "(Solo se incluyen adjuntos públicos; los documentos privados están ocultos)", "ui.no_attachments_found": "(No se encontraron adjuntos)", "ui.unlock_label": "Desbloquear:", "ui.passphrase": "Frase de contraseña", "ui.unlock_button": "Desbloquear", "ui.enter_passphrase": "Ingresa una frase de contraseña.", "ui.incorrect": "Incorrecto.", "ui.unlock_failed": "Falló el desbloqueo.", "ui.business_cards_title": "Tarjetas de presentación", "ui.choose_design_theme": "Elige un diseño y un tema. Imprime desde la página de la tarjeta para un tamaño exacto de 3,5×2\".", "ui.back_to_resume_viewer": "← Volver al visor de currículum", "ui.print_sheet": "Imprimir hoja (10)", "ui.design": "Diseño", "nav.skip_to_content": "Saltar al contenido", "label.website": "Sitio web", "label.responsibilities": "Responsabilidades", "label.deliverables": "Entregables", "section.summary": "Resumen", "section.core_competencies": "Competencias principales", "section.experience": "Experiencia", "section.education": "Educación", "section.certifications": "Certificaciones", "section.certifications_detailed": "Certificaciones (detallado)", "section.publication": "Publicación", "section.publications": "Publicaciones", "section.selected_training": "Formación seleccionada", "section.training": "Formación", "section.training_military_detailed": "Formación y educación militar (detallado)", "section.awards_recognition": "Premios y reconocimientos", "section.awards": "Premios", "section.projects": "Proyectos", "section.links": "Enlaces", "section.skills": "Habilidades", "section.core": "Núcleo", "section.education_summary": "Educación (resumen)", "section.academic_record_detailed": "Historial académico (detallado)", "section.military_service_record": "Registro de servicio militar", "template.ats": "ATS", "template.modern": "Moderno", "template.sidebar": "Barra lateral", "template.compact": "Compacto", "template.dossier": "Expediente", "template.timeline": "Cronología", "template.executive": "Ejecutivo", "template.federal": "Federal (USAJobs)", "template.academia": "Académico", "theme.light": "Claro", "theme.slate": "Pizarra", "theme.dark": "Oscuro", "theme.army": "Ejército", "theme.navy": "Armada", "theme.midnight": "Medianoche", "theme.sand": "Arena", "theme.plum": "Ciruela", "theme.terminal": "Terminal", "theme.cobalt": "Cobalto", "theme.graphite": "Grafito", "theme.emerald": "Esmeralda", "theme.ruby": "Rubí", "theme.sunset": "Atardecer", "theme.paper": "Papel", "theme.forest": "Bosque", "theme.copper": "Cobre", "theme.ice": "Hielo", "design.classic": "Clásico", "design.split": "Dividido", "design.minimal": "Minimal", "design.band": "Banda", "design.terminal": "Terminal", "design.centered": "Centrado", "ui.qr_alt": "Código QR (vCard)", "ui.business_card_sheet_title": "Hoja de tarjetas de presentación"}, "de": {"ui.resume_viewer": "Lebenslauf‑Viewer", "ui.pick_layout_theme": "Wähle Layout und Theme. Drucke innerhalb der Lebenslaufseite, um ein formatiertes PDF zu erzeugen.", "ui.language": "Sprache", "ui.template": "Vorlage", "ui.theme": "Theme", "ui.open_new_tab": "In neuem Tab öffnen", "ui.more_controls": "Weitere Optionen", "ui.panel_hint": "Details • Abschnitte • Tools", "ui.details": "Details", "ui.academic_record": "Akademischer Nachweis", "ui.course_descriptions": "Kursbeschreibungen", "ui.course_skills": "Kurskompetenzen", "ui.cert_descriptions": "Zertifikatsbeschreibungen", "ui.cert_skills": "Zertifikatskompetenzen", "ui.training_explanations": "Schulungserläuterungen", "ui.training_skills": "Schulungskompetenzen", "ui.job_explanations": "Tätigkeitsbeschreibungen", "ui.award_explanations": "Auszeichnungserklärungen", "ui.transcript_appendices": "Transcript‑Anhänge", "ui.controls_above_resume_note": "(Die Steuerelemente befinden sich oberhalb des Lebenslaufs.)", "ui.translation_incomplete": "Einige Texte konnten nicht übersetzt werden.", "ui.retry": "Erneut versuchen", "ui.sections": "Abschnitte", "ui.expand_all": "Alle ausklappen", "ui.collapse_all": "Alle einklappen", "ui.section_click_hint": "(Du kannst auch auf eine Abschnittsüberschrift im Lebenslauf klicken.)", "ui.attachments": "Anhänge", "ui.tools": "Tools", "ui.business_cards": "Visitenkarten", "ui.download_vcard": "vCard herunterladen", "ui.not_included_build": "(In dieser Version nicht enthalten)", "ui.only_public_attachments": "(Nur öffentliche Anhänge enthalten; private Dokumente verborgen)", "ui.no_attachments_found": "(Keine Anhänge gefunden)", "ui.unlock_label": "Entsperren:", "ui.passphrase": "Passphrase", "ui.unlock_button": "Entsperren", "ui.enter_passphrase": "Passphrase eingeben.", "ui.incorrect": "Falsch.", "ui.unlock_failed": "Entsperren fehlgeschlagen.", "ui.business_cards_title": "Visitenkarten", "ui.choose_design_theme": "Wähle Design und Theme. Drucke von der Kartenseite für exakte 3,5×2\"‑Größe.", "ui.back_to_resume_viewer": "← Zurück zum Lebenslauf‑Viewer", "ui.print_sheet": "10er‑Druckbogen", "ui.design": "Design", "nav.skip_to_content": "Zum Inhalt springen", "label.website": "Website", "label.responsibilities": "Verantwortlichkeiten", "label.deliverables": "Arbeitsergebnisse", "section.summary": "Zusammenfassung", "section.core_competencies": "Kernkompetenzen", "section.experience": "Berufserfahrung", "section.education": "Ausbildung", "section.certifications": "Zertifizierungen", "section.certifications_detailed": "Zertifizierungen (detailliert)", "section.publication": "Publikation", "section.publications": "Publikationen", "section.selected_training": "Ausgewählte Schulungen", "section.training": "Schulungen", "section.training_military_detailed": "Schulung und militärische Ausbildung (detailliert)", "section.awards_recognition": "Auszeichnungen & Anerkennung", "section.awards": "Auszeichnungen", "section.projects": "Projekte", "section.links": "Links", "section.skills": "Skills", "section.core": "Kern", "section.education_summary": "Ausbildung (Zusammenfassung)", "section.academic_record_detailed": "Akademischer Nachweis (detailliert)", "section.military_service_record": "Militärischer Dienstnachweis", "template.ats": "ATS", "template.modern": "Modern", "template.sidebar": "Seitenleiste", "template.compact": "Kompakt", "template.dossier": "Dossier", "template.timeline": "Zeitachse", "template.executive": "Executive", "template.federal": "Federal (USAJobs)", "template.academia": "Akademisch", "theme.light": "Hell", "theme.slate": "Schiefer", "theme.dark": "Dunkel", "theme.army": "Armee", "theme.navy": "Marine", "theme.midnight": "Mitternacht", "theme.sand": "Sand", "theme.plum": "Pflaume", "theme.terminal": "Terminal", "theme.cobalt": "Kobalt", "theme.graphite": "Graphit", "theme.emerald": "Smaragd", "theme.ruby": "Rubin", "theme.sunset": "Sonnenuntergang", "theme.paper": "Papier", "theme.forest": "Wald", "theme.copper": "Kupfer", "theme.ice": "Eis", "design.classic": "Klassisch", "design.split": "Geteilt", "design.minimal": "Minimal", "design.band": "Band", "design.terminal": "Terminal", "design.centered": "Zentriert", "ui.qr_alt": "QR‑Code (vCard)", "ui.business_card_sheet_title": "Visitenkartenbogen"}, "pl": {"ui.resume_viewer": "Podgląd CV", "ui.pick_layout_theme": "Wybierz układ i motyw. Drukuj z poziomu strony CV, aby uzyskać stylizowany PDF.", "ui.language": "Język", "ui.template": "Szablon", "ui.theme": "Motyw", "ui.open_new_tab": "Otwórz w nowej karcie", "ui.more_controls": "Więcej ustawień", "ui.panel_hint": "Szczegóły • Sekcje • Narzędzia", "ui.details": "Szczegóły", "ui.academic_record": "Rekord akademicki", "ui.course_descriptions": "Opisy kursów", "ui.course_skills": "Umiejętności z kursów", "ui.cert_descriptions": "Opisy certyfikatów", "ui.cert_skills": "Umiejętności certyfikacyjne", "ui.training_explanations": "Wyjaśnienia szkoleń", "ui.training_skills": "Umiejętności ze szkoleń", "ui.job_explanations": "Opisy stanowisk", "ui.award_explanations": "Wyjaśnienia nagród", "ui.transcript_appendices": "Załączniki do transkryptu", "ui.controls_above_resume_note": "(Sterowanie jest nad CV.)", "ui.translation_incomplete": "Nie udało się przetłumaczyć części tekstu.", "ui.retry": "Ponów", "ui.sections": "Sekcje", "ui.expand_all": "Rozwiń wszystkie", "ui.collapse_all": "Zwiń wszystkie", "ui.section_click_hint": "(Możesz też kliknąć nagłówek sekcji w CV.)", "ui.attachments": "Załączniki", "ui.tools": "Narzędzia", "ui.business_cards": "Wizytówki", "ui.download_vcard": "Pobierz vCard", "ui.not_included_build": "(Nie uwzględniono w tej wersji)", "ui.only_public_attachments": "(Tylko publiczne załączniki; prywatne dokumenty ukryte)", "ui.no_attachments_found": "(Brak załączników)", "ui.unlock_label": "Odblokuj:", "ui.passphrase": "Hasło", "ui.unlock_button": "Odblokuj", "ui.enter_passphrase": "Wpisz hasło.", "ui.incorrect": "Nieprawidłowe.", "ui.unlock_failed": "Nie udało się odblokować.", "ui.business_cards_title": "Wizytówki", "ui.choose_design_theme": "Wybierz projekt i motyw. Drukuj ze strony wizytówki w rozmiarze 3,5×2\".", "ui.back_to_resume_viewer": "← Wróć do podglądu CV", "ui.print_sheet": "Arkusz 10‑up", "ui.design": "Projekt", "nav.skip_to_content": "Przejdź do treści", "label.website": "Strona WWW", "label.responsibilities": "Obowiązki", "label.deliverables": "Rezultaty", "section.summary": "Podsumowanie", "section.core_competencies": "Kluczowe kompetencje", "section.experience": "Doświadczenie", "section.education": "Wykształcenie", "section.certifications": "Certyfikaty", "section.certifications_detailed": "Certyfikaty (szczegóły)", "section.publication": "Publikacja", "section.publications": "Publikacje", "section.selected_training": "Wybrane szkolenia", "section.training": "Szkolenia", "section.training_military_detailed": "Szkolenia i edukacja wojskowa (szczegóły)", "section.awards_recognition": "Nagrody i wyróżnienia", "section.awards": "Nagrody", "section.projects": "Projekty", "section.links": "Linki", "section.skills": "Umiejętności", "section.core": "Główne", "section.education_summary": "Wykształcenie (podsumowanie)", "section.academic_record_detailed": "Rekord akademicki (szczegóły)", "section.military_service_record": "Przebieg służby wojskowej", "template.ats": "ATS", "template.modern": "Nowoczesny", "template.sidebar": "Panel boczny", "template.compact": "Kompaktowy", "template.dossier": "Dossier", "template.timeline": "Oś czasu", "template.executive": "Executive", "template.federal": "Federal (USAJobs)", "template.academia": "Akademicki", "theme.light": "Jasny", "theme.slate": "Łupek", "theme.dark": "Ciemny", "theme.army": "Armia", "theme.navy": "Marynarka", "theme.midnight": "Północ", "theme.sand": "Piasek", "theme.plum": "Śliwka", "theme.terminal": "Terminal", "theme.cobalt": "Kobalt", "theme.graphite": "Grafit", "theme.emerald": "Szmaragd", "theme.ruby": "Rubin", "theme.sunset": "Zachód słońca", "theme.paper": "Papier", "theme.forest": "Las", "theme.copper": "Miedź", "theme.ice": "Lód", "design.classic": "Klasyczny", "design.split": "Podzielony", "design.minimal": "Minimal", "design.band": "Pasek", "design.terminal": "Terminal", "design.centered": "Wyśrodkowany", "ui.qr_alt": "Kod QR (vCard)", "ui.business_card_sheet_title": "Arkusz wizytówek"}, "ro": {"ui.resume_viewer": "Vizualizator CV", "ui.pick_layout_theme": "Alege un format și o temă. Printează din pagina CV‑ului pentru un PDF stilizat.", "ui.language": "Limbă", "ui.template": "Șablon", "ui.theme": "Temă", "ui.open_new_tab": "Deschide într-o filă nouă", "ui.more_controls": "Mai multe controale", "ui.panel_hint": "Detalii • Secțiuni • Instrumente", "ui.details": "Detalii", "ui.academic_record": "Istoric academic", "ui.course_descriptions": "Descrieri de curs", "ui.course_skills": "Competențe din cursuri", "ui.cert_descriptions": "Descrieri de certificări", "ui.cert_skills": "Competențe din certificări", "ui.training_explanations": "Explicații de instruire", "ui.training_skills": "Competențe din instruire", "ui.job_explanations": "Explicații despre joburi", "ui.award_explanations": "Explicații despre premii", "ui.transcript_appendices": "Anexe la transcript", "ui.controls_above_resume_note": "(Controalele sunt deasupra CV‑ului.)", "ui.translation_incomplete": "O parte din text nu a putut fi tradusă.", "ui.retry": "Reîncearcă", "ui.sections": "Secțiuni", "ui.expand_all": "Extinde tot", "ui.collapse_all": "Restrânge tot", "ui.section_click_hint": "(Poți face clic și pe titlul unei secțiuni din CV.)", "ui.attachments": "Atașamente", "ui.tools": "Instrumente", "ui.business_cards": "Cărți de vizită", "ui.download_vcard": "Descarcă vCard", "ui.not_included_build": "(Nu este inclus în această versiune)", "ui.only_public_attachments": "(Sunt incluse doar atașamente publice; documentele private sunt ascunse)", "ui.no_attachments_found": "(Nu s-au găsit atașamente)", "ui.unlock_label": "Deblochează:", "ui.passphrase": "Parolă", "ui.unlock_button": "Deblochează", "ui.enter_passphrase": "Introdu parola.", "ui.incorrect": "Incorect.", "ui.unlock_failed": "Deblocarea a eșuat.", "ui.business_cards_title": "Cărți de vizită", "ui.choose_design_theme": "Alege un design și o temă. Printează din pagina cărții de vizită pentru dimensiunea 3,5×2\".", "ui.back_to_resume_viewer": "← Înapoi la vizualizatorul CV", "ui.print_sheet": "Foaie 10‑up", "ui.design": "Design", "nav.skip_to_content": "Sari la conținut", "label.website": "Website", "label.responsibilities": "Responsabilități", "label.deliverables": "Livrabile", "section.summary": "Rezumat", "section.core_competencies": "Competențe de bază", "section.experience": "Experiență", "section.education": "Educație", "section.certifications": "Certificări", "section.certifications_detailed": "Certificări (detaliat)", "section.publication": "Publicație", "section.publications": "Publicații", "section.selected_training": "Instruire selectată", "section.training": "Instruire", "section.training_military_detailed": "Instruire și educație militară (detaliat)", "section.awards_recognition": "Premii și distincții", "section.awards": "Premii", "section.projects": "Proiecte", "section.links": "Linkuri", "section.skills": "Competențe", "section.core": "De bază", "section.education_summary": "Educație (rezumat)", "section.academic_record_detailed": "Istoric academic (detaliat)", "section.military_service_record": "Evidența serviciului militar", "template.ats": "ATS", "template.modern": "Modern", "template.sidebar": "Bară laterală", "template.compact": "Compact", "template.dossier": "Dosar", "template.timeline": "Cronologie", "template.executive": "Executiv", "template.federal": "Federal (USAJobs)", "template.academia": "Academic", "theme.light": "Deschis", "theme.slate": "Ardezie", "theme.dark": "Întunecat", "theme.army": "Armată", "theme.navy": "Marină", "theme.midnight": "Miezul nopții", "theme.sand": "Nisip", "theme.plum": "Prună", "theme.terminal": "Terminal", "theme.cobalt": "Cobalt", "theme.graphite": "Grafit", "theme.emerald": "Smarald", "theme.ruby": "Rubin", "theme.sunset": "Apus", "theme.paper": "Hârtie", "theme.forest": "Pădure", "theme.copper": "Cupru", "theme.ice": "Gheață", "design.classic": "Clasic", "design.split": "Împărțit", "design.minimal": "Minimal", "design.band": "Bandă", "design.terminal": "Terminal", "design.centered": "Centrat", "ui.qr_alt": "Cod QR (vCard)", "ui.business_card_sheet_title": "Foaie de cărți de vizită"}, "ru": {"ui.resume_viewer": "Просмотр резюме", "ui.pick_layout_theme": "Выберите макет и тему. Печатайте на странице резюме, чтобы сохранить стилизованный PDF.", "ui.language": "Язык", "ui.template": "Шаблон", "ui.theme": "Тема", "ui.open_new_tab": "Открыть в новой вкладке", "ui.more_controls": "Дополнительные настройки", "ui.panel_hint": "Детали • Разделы • Инструменты", "ui.details": "Детали", "ui.academic_record": "Академическая запись", "ui.course_descriptions": "Описания курсов", "ui.course_skills": "Навыки по курсам", "ui.cert_descriptions": "Описания сертификаций", "ui.cert_skills": "Навыки по сертификациям", "ui.training_explanations": "Пояснения по обучению", "ui.training_skills": "Навыки по обучению", "ui.job_explanations": "Пояснения по должностям", "ui.award_explanations": "Пояснения по наградам", "ui.transcript_appendices": "Приложения к транскрипту", "ui.controls_above_resume_note": "(Управление находится над резюме.)", "ui.translation_incomplete": "Некоторый текст не удалось перевести.", "ui.retry": "Повторить", "ui.sections": "Разделы", "ui.expand_all": "Развернуть все", "ui.collapse_all": "Свернуть все", "ui.section_click_hint": "(Также можно нажимать на заголовки разделов внутри резюме.)", "ui.attachments": "Вложения", "ui.tools": "Инструменты", "ui.business_cards": "Визитки", "ui.download_vcard": "Скачать vCard", "ui.not_included_build": "(Не включено в эту сборку)", "ui.only_public_attachments": "(Только публичные вложения; приватные документы скрыты)", "ui.no_attachments_found": "(Вложения не найдены)", "ui.unlock_label": "Разблокировать:", "ui.passphrase": "Пароль", "ui.unlock_button": "Разблокировать", "ui.enter_passphrase": "Введите пароль.", "ui.incorrect": "Неверно.", "ui.unlock_failed": "Не удалось разблокировать.", "ui.business_cards_title": "Визитки", "ui.choose_design_theme": "Выберите дизайн и тему. Печатайте со страницы визитки для точного размера 3,5×2\".", "ui.back_to_resume_viewer": "← Назад к просмотру резюме", "ui.print_sheet": "Лист 10‑up", "ui.design": "Дизайн", "nav.skip_to_content": "Перейти к содержимому", "label.website": "Сайт", "label.responsibilities": "Обязанности", "label.deliverables": "Результаты", "section.summary": "Резюме", "section.core_competencies": "Ключевые компетенции", "section.experience": "Опыт работы", "section.education": "Образование", "section.certifications": "Сертификации", "section.certifications_detailed": "Сертификации (подробно)", "section.publication": "Публикация", "section.publications": "Публикации", "section.selected_training": "Выбранное обучение", "section.training": "Обучение", "section.training_military_detailed": "Обучение и военное образование (подробно)", "section.awards_recognition": "Награды и признания", "section.awards": "Награды", "section.projects": "Проекты", "section.links": "Ссылки", "section.skills": "Навыки", "section.core": "Основное", "section.education_summary": "Образование (кратко)", "section.academic_record_detailed": "Академическая запись (подробно)", "section.military_service_record": "Сведения о военной службе", "template.ats": "ATS", "template.modern": "Современный", "template.sidebar": "Боковая панель", "template.compact": "Компактный", "template.dossier": "Досье", "template.timeline": "Хронология", "template.executive": "Для руководителя", "template.federal": "Federal (USAJobs)", "template.academia": "Академический", "theme.light": "Светлая", "theme.slate": "Сланец", "theme.dark": "Тёмная", "theme.army": "Армия", "theme.navy": "Флот", "theme.midnight": "Полночь", "theme.sand": "Песок", "theme.plum": "Слива", "theme.terminal": "Терминал", "theme.cobalt": "Кобальт", "theme.graphite": "Графит", "theme.emerald": "Изумруд", "theme.ruby": "Рубин", "theme.sunset": "Закат", "theme.paper": "Бумага", "theme.forest": "Лес", "theme.copper": "Медь", "theme.ice": "Лёд", "design.classic": "Классический", "design.split": "Разделённый", "design.minimal": "Минимал", "design.band": "Полоса", "design.terminal": "Терминал", "design.centered": "По центру", "ui.qr_alt": "QR‑код (vCard)", "ui.business_card_sheet_title": "Лист визиток"}, "cs": {"ui.resume_viewer": "Prohlížeč životopisu", "ui.pick_layout_theme": "Vyberte rozvržení a motiv. Tiskněte přímo na stránce životopisu pro stylizované PDF.", "ui.language": "Jazyk", "ui.template": "Šablona", "ui.theme": "Motiv", "ui.open_new_tab": "Otevřít v nové kartě", "ui.more_controls": "Další ovládání", "ui.panel_hint": "Detaily • Sekce • Nástroje", "ui.details": "Detaily", "ui.academic_record": "Studijní záznam", "ui.course_descriptions": "Popisy předmětů", "ui.course_skills": "Dovednosti z předmětů", "ui.cert_descriptions": "Popisy certifikací", "ui.cert_skills": "Dovednosti k certifikacím", "ui.training_explanations": "Vysvětlení školení", "ui.training_skills": "Dovednosti ze školení", "ui.job_explanations": "Popisy pracovních rolí", "ui.award_explanations": "Vysvětlení ocenění", "ui.transcript_appendices": "Přílohy přepisů", "ui.controls_above_resume_note": "(Ovládací prvky jsou nad životopisem.)", "ui.translation_incomplete": "Některý text se nepodařilo přeložit.", "ui.retry": "Zkusit znovu", "ui.sections": "Sekce", "ui.expand_all": "Rozbalit vše", "ui.collapse_all": "Sbalit vše", "ui.section_click_hint": "(Můžete také kliknout na nadpis sekce přímo v životopisu.)", "ui.attachments": "Přílohy", "ui.tools": "Nástroje", "ui.business_cards": "Vizitky", "ui.download_vcard": "Stáhnout vCard", "ui.not_included_build": "(Není zahrnuto v této sestavě)", "ui.only_public_attachments": "(Zahrnuty jsou pouze veřejné přílohy; soukromé dokumenty jsou skryté)", "ui.no_attachments_found": "(Žádné přílohy nenalezeny)", "ui.unlock_label": "Odemknout:", "ui.passphrase": "Heslová fráze", "ui.unlock_button": "Odemknout", "ui.enter_passphrase": "Zadejte heslovou frázi.", "ui.incorrect": "Nesprávné.", "ui.unlock_failed": "Odemknutí selhalo.", "ui.business_cards_title": "Vizitky", "ui.choose_design_theme": "Vyberte design a motiv. Tiskněte ze stránky vizitky pro přesný rozměr 3,5×2\".", "ui.back_to_resume_viewer": "← Zpět na prohlížeč životopisu", "ui.print_sheet": "Tisk 10 na stránku", "ui.design": "Design", "nav.skip_to_content": "Přeskočit na obsah", "label.website": "Web", "label.responsibilities": "Povinnosti", "label.deliverables": "Výstupy", "section.summary": "Shrnutí", "section.core_competencies": "Klíčové kompetence", "section.experience": "Praxe", "section.education": "Vzdělání", "section.certifications": "Certifikace", "section.certifications_detailed": "Certifikace (podrobně)", "section.publication": "Publikace", "section.publications": "Publikace", "section.selected_training": "Vybraná školení", "section.training": "Školení", "section.training_military_detailed": "Školení a vojenské vzdělání (podrobně)", "section.awards_recognition": "Ocenění a uznání", "section.awards": "Ocenění", "section.projects": "Projekty", "section.links": "Odkazy", "section.skills": "Dovednosti", "section.core": "Jádro", "section.education_summary": "Vzdělání (souhrn)", "section.academic_record_detailed": "Studijní záznam (podrobně)", "section.military_service_record": "Záznam o vojenské službě", "template.ats": "ATS", "template.modern": "Moderní", "template.sidebar": "Postranní panel", "template.compact": "Kompaktní", "template.dossier": "Dossier", "template.timeline": "Časová osa", "template.executive": "Executive", "template.federal": "Federální (USAJobs)", "template.academia": "Akademický", "theme.light": "Světlý", "theme.slate": "Břidlice", "theme.dark": "Tmavý", "theme.army": "Armáda", "theme.navy": "Námořnictvo", "theme.midnight": "Půlnoc", "theme.sand": "Písek", "theme.plum": "Švestka", "theme.terminal": "Terminál", "theme.cobalt": "Kobalt", "theme.graphite": "Grafit", "theme.emerald": "Smaragd", "theme.ruby": "Rubín", "theme.sunset": "Soumrak", "theme.paper": "Papír", "theme.forest": "Les", "theme.copper": "Měď", "theme.ice": "Led", "design.classic": "Klasický", "design.split": "Rozdělený", "design.minimal": "Minimal", "design.band": "Pás", "design.terminal": "Terminál", "design.centered": "Na střed", "ui.qr_alt": "QR kód (vCard)", "ui.business_card_sheet_title": "Aršík vizitek"}};
+
+  function getQueryLang(){
+    try{ return (new URLSearchParams(location.search)).get('lang') || ''; }catch(e){ return ''; }
+  }
+  function normalizeLang(lang){
+    lang = (lang || '').toLowerCase();
+    if(lang.startsWith('en')) return 'en';
+    if(lang.startsWith('es')) return 'es';
+    if(lang.startsWith('de')) return 'de';
+    if(lang.startsWith('pl')) return 'pl';
+    if(lang.startsWith('ro')) return 'ro';
+    if(lang.startsWith('ru')) return 'ru';
+    if(lang.startsWith('cs') || lang.startsWith('cz')) return 'cs';
+    return 'en';
+  }
+  function t(lang, key){
+    const L = (I18N && I18N[lang]) ? I18N[lang] : (I18N && I18N.en ? I18N.en : {});
+    return (L && L[key]) || (I18N && I18N.en && I18N.en[key]) || key;
+  }
+  function applyI18n(lang){
+    const l = normalizeLang(lang);
+    document.documentElement.lang = l;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if(!key) return;
+      el.textContent = t(l, key);
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if(!key) return;
+      el.setAttribute('placeholder', t(l, key));
+    });
+    document.title = t(l, 'ui.resume_viewer');
+    return l;
+  }
+
+  const templates = [...new Set(pages.map(p => p.template))];
+  const themes = [...new Set(pages.map(p => p.theme))];
+
+  const langSel = document.getElementById("lang");
+  const tplSel = document.getElementById("tpl");
+  const themeSel = document.getElementById("theme");
+  const frame = document.getElementById("frame");
+  const openLink = document.getElementById("openLink");
+  const cardsLink = document.getElementById("cardsLink");
+
+  function addOptions(sel, values){
+    sel.innerHTML = "";
+    values.forEach(v => {
+      const o = document.createElement("option");
+      o.value = v;
+      o.textContent = v;
+      sel.appendChild(o);
+    });
+  }
+  function addLangOptions(sel){
+    sel.innerHTML = "";
+    (LANGS || []).forEach(it => {
+      const o = document.createElement("option");
+      o.value = it.code;
+      o.textContent = it.label;
+      sel.appendChild(o);
+    });
+  }
+
+  addLangOptions(langSel);
+  addOptions(tplSel, templates);
+  addOptions(themeSel, themes);
+
+  // Collapse controls panel by default on small screens; remember preference.
+  const controlsPanel = document.getElementById('controlsPanel');
+  const controlsKey = 'resume_viewer_controls_open';
+  (function initControlsPanel(){
+    if(!controlsPanel) return;
+    const saved = localStorage.getItem(controlsKey);
+    if(saved !== null){
+      controlsPanel.open = saved === '1';
+    } else {
+      controlsPanel.open = window.innerWidth >= 900;
+    }
+    controlsPanel.addEventListener('toggle', () => {
+      localStorage.setItem(controlsKey, controlsPanel.open ? '1' : '0');
+    });
+    window.addEventListener('resize', () => {
+      if(localStorage.getItem(controlsKey) === null){
+        controlsPanel.open = window.innerWidth >= 900;
+      }
+    });
+  })();
+  let currentLang = 'en';
+  let currentFilename = pages[0] ? pages[0].filename : '';
+
+  function localizeSelectOptions(sel, kind){
+    try{
+      Array.from(sel.options).forEach(opt => {
+        const key = `${kind}.${opt.value}`;
+        const lbl = t(currentLang, key);
+        if(lbl && lbl !== key) opt.textContent = lbl;
+      });
+    }catch(e){}
+  }
+  function localizeAllSelects(){
+    localizeSelectOptions(tplSel, 'template');
+    localizeSelectOptions(themeSel, 'theme');
+  }
+
+  function postLang(){
+    const win = frame.contentWindow;
+    if(!win) return;
+    win.postMessage({type:"setLang", lang: currentLang}, "*");
+  }
+
+	  // Toggle verbosity controls (sent to the resume document via postMessage)
+	  const toggleAcademic = document.getElementById("toggleAcademic");
+	  const toggleCourseDesc = document.getElementById("toggleCourseDesc");
+	  const toggleCourseSkills = document.getElementById("toggleCourseSkills");
+	  const toggleCertDesc = document.getElementById("toggleCertDesc");
+	  const toggleCertSkills = document.getElementById("toggleCertSkills");
+	  const toggleTrainingDesc = document.getElementById("toggleTrainingDesc");
+	  const toggleTrainingSkills = document.getElementById("toggleTrainingSkills");
+	  const toggleJobDesc = document.getElementById("toggleJobDesc");
+	  const toggleAwardDesc = document.getElementById("toggleAwardDesc");
+	  const toggleAppendix = document.getElementById("toggleAppendix");
+
+	  function postToggle(){
+	    const win = frame.contentWindow;
+	    if(!win) return;
+	    // These match the CSS selectors in styles/base.css
+	    win.postMessage({type:"setClass", className:"hide-academics", enabled: !(toggleAcademic && toggleAcademic.checked)}, "*");
+	    win.postMessage({type:"setClass", className:"hide-course-desc", enabled: !(toggleCourseDesc && toggleCourseDesc.checked)}, "*");
+	    win.postMessage({type:"setClass", className:"hide-course-skills", enabled: !(toggleCourseSkills && toggleCourseSkills.checked)}, "*");
+	    win.postMessage({type:"setClass", className:"hide-cert-desc", enabled: !(toggleCertDesc && toggleCertDesc.checked)}, "*");
+	    win.postMessage({type:"setClass", className:"hide-cert-skills", enabled: !(toggleCertSkills && toggleCertSkills.checked)}, "*");
+	    win.postMessage({type:"setClass", className:"hide-training-desc", enabled: !(toggleTrainingDesc && toggleTrainingDesc.checked)}, "*");
+	    win.postMessage({type:"setClass", className:"hide-training-skills", enabled: !(toggleTrainingSkills && toggleTrainingSkills.checked)}, "*");
+	    win.postMessage({type:"setClass", className:"hide-job-desc", enabled: !(toggleJobDesc && toggleJobDesc.checked)}, "*");
+	    win.postMessage({type:"setClass", className:"hide-award-desc", enabled: !(toggleAwardDesc && toggleAwardDesc.checked)}, "*");
+	    win.postMessage({type:"setClass", className:"hide-appendix", enabled: !(toggleAppendix && toggleAppendix.checked)}, "*");
+	  }
+
+  document.getElementById("expandAll").addEventListener("click", () => {
+    const win = frame.contentWindow;
+    if(!win) return;
+    win.postMessage({type:"setAllSectionsOpen", open:true}, "*");
+  });
+  document.getElementById("collapseAll").addEventListener("click", () => {
+    const win = frame.contentWindow;
+    if(!win) return;
+    win.postMessage({type:"setAllSectionsOpen", open:false}, "*");
+  });
+
+  function persist(){
+    localStorage.setItem("resume_viewer_state", JSON.stringify({
+      template: tplSel.value,
+      theme: themeSel.value,
+      lang: currentLang,
+      academic: toggleAcademic.checked,
+      courseDesc: toggleCourseDesc.checked,
+      courseSkills: toggleCourseSkills.checked,
+      certDesc: toggleCertDesc.checked,
+      certSkills: toggleCertSkills.checked,
+      trainingDesc: toggleTrainingDesc.checked,
+      trainingSkills: toggleTrainingSkills.checked,
+      jobDesc: toggleJobDesc.checked,
+      awardDesc: toggleAwardDesc.checked,
+      appendix: toggleAppendix.checked
+    }));
+    try{ localStorage.setItem('resume_lang', currentLang); }catch(e){}
+  }
+
+  function restore(){
+    // URL parameter overrides localStorage
+    const urlLang = getQueryLang();
+    try{
+      const raw = localStorage.getItem("resume_viewer_state");
+      if(raw){
+        const st = JSON.parse(raw);
+        if(st.template && templates.includes(st.template)) tplSel.value = st.template;
+        if(st.theme && themes.includes(st.theme)) themeSel.value = st.theme;
+        if(st.academic !== undefined) toggleAcademic.checked = !!st.academic;
+        if(st.courseDesc !== undefined) toggleCourseDesc.checked = !!st.courseDesc;
+        if(st.courseSkills !== undefined) toggleCourseSkills.checked = !!st.courseSkills;
+        if(st.certDesc !== undefined) toggleCertDesc.checked = !!st.certDesc;
+        if(st.certSkills !== undefined) toggleCertSkills.checked = !!st.certSkills;
+        if(st.trainingDesc !== undefined) toggleTrainingDesc.checked = !!st.trainingDesc;
+        if(st.trainingSkills !== undefined) toggleTrainingSkills.checked = !!st.trainingSkills;
+        if(st.jobDesc !== undefined) toggleJobDesc.checked = !!st.jobDesc;
+        if(st.awardDesc !== undefined) toggleAwardDesc.checked = !!st.awardDesc;
+        if(st.appendix !== undefined) toggleAppendix.checked = !!st.appendix;
+        if(st.lang && (LANGS||[]).some(l => l.code === normalizeLang(st.lang))) langSel.value = normalizeLang(st.lang);
+      }
+    }catch(e){}
+
+    if(urlLang){
+      langSel.value = normalizeLang(urlLang);
+    } else if(!langSel.value){
+      const savedLang = localStorage.getItem('resume_lang');
+      if(savedLang) langSel.value = normalizeLang(savedLang);
+    }
+
+    currentLang = applyI18n(langSel.value || 'en');
+    localizeAllSelects();
+    try{ localStorage.setItem('resume_lang', currentLang); }catch(e){}
+  }
+
+  function updateLinks(){
+    cardsLink.href = `cards/index.html?lang=${encodeURIComponent(currentLang)}`;
+  }
+
+  function pick(){
+    const tpl = tplSel.value;
+    const th = themeSel.value;
+    const match = pages.find(p => p.template===tpl && p.theme===th) || pages[0];
+    currentFilename = match.filename;
+    const src = `${match.filename}?lang=${encodeURIComponent(currentLang)}`;
+    frame.src = src;
+    openLink.href = src;
+    updateLinks();
+    persist();
+  }
+
+  // Events
+  tplSel.addEventListener("change", pick);
+  themeSel.addEventListener("change", pick);
+
+  langSel.addEventListener("change", () => {
+    currentLang = applyI18n(langSel.value);
+    localizeAllSelects();
+
+    updateLinks();
+    if(currentFilename) openLink.href = `${currentFilename}?lang=${encodeURIComponent(currentLang)}`;
+    persist();
+    postLang();
+  });
+
+  toggleAcademic.addEventListener("change", () => { postToggle(); persist(); });
+  toggleCourseDesc.addEventListener("change", () => { postToggle(); persist(); });
+  toggleCourseSkills.addEventListener("change", () => { postToggle(); persist(); });
+  toggleCertDesc.addEventListener("change", () => { postToggle(); persist(); });
+  toggleCertSkills.addEventListener("change", () => { postToggle(); persist(); });
+  toggleTrainingDesc.addEventListener("change", () => { postToggle(); persist(); });
+  toggleTrainingSkills.addEventListener("change", () => { postToggle(); persist(); });
+  toggleJobDesc.addEventListener("change", () => { postToggle(); persist(); });
+  toggleAwardDesc.addEventListener("change", () => { postToggle(); persist(); });
+  toggleAppendix.addEventListener("change", () => { postToggle(); persist(); });
+
+  frame.addEventListener("load", () => { postToggle(); postLang(); });
+
+  restore();
+  
+  pick();
+</script>
+</body>
+</html>
