@@ -1,0 +1,2713 @@
+<!doctype html>
+<html lang="en" class="theme-sand">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Brett K. Fry - Resume</title>
+  <meta name="description" content="Cybersecurity Leader | DCO / SecOps Planning | Threat Hunting &amp; Detection Engineering | Incident Response" />
+  <style>
+  /* --- Embedded styles for standalone hosting/printing --- */
+  
+/* ---------- Design tokens (themes override these) ---------- */
+:root{
+  /* Core colors */
+  --bg: #ffffff;
+  --surface: rgba(255,255,255,0.0);
+  --text: #111111;
+  --muted: #555555;
+  --line: #dddddd;
+  --chip-bg: rgba(0,0,0,0.06);
+  --accent: #0b5fff;
+  --accent-2: #00a389;
+
+  /* Typography */
+  --font-sans: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Helvetica,Arial,sans-serif;
+  --font-mono: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+  --fs-body: 14px;
+  --lh-body: 1.45;
+
+  /* Layout */
+  --page-max: 940px;
+  --radius: 12px;
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+
+/* ---------- Reset-ish ---------- */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing:antialiased;
+  text-rendering: optimizeLegibility;
+}
+a{color:var(--accent); text-decoration:none}
+a:hover{text-decoration:underline}
+p{margin:0 0 10px 0}
+ul{margin:0; padding-left:18px}
+li{margin:0 0 6px 0}
+h1,h2,h3{margin:0}
+hr{border:none; border-top:1px solid var(--line); margin:18px 0}
+
+.mono{font-family: var(--font-mono)}
+.small{font-size:12px}
+.muted{color:var(--muted)}
+.chip{
+  display:inline-block;
+  vertical-align: middle;
+  padding:4px 10px;
+  border:1px solid var(--line);
+  background:var(--chip-bg);
+  border-radius:999px;
+  font-size:12px;
+  margin: 0 6px 6px 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+  line-height: 1.25;
+}
+
+.chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.chips .chip{ margin:0 }
+
+
+.container{
+  max-width:var(--page-max);
+  margin:0 auto;
+  padding: 28px 18px;
+}
+
+.card{
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background: var(--surface);
+}
+
+.skiplink{
+  position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+}
+.skiplink:focus{
+  left: 10px; top: 10px; width:auto; height:auto;
+  background: var(--bg);
+  color: var(--text);
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  z-index: 9999;
+}
+
+/* ---------- Header pattern shared by layouts ---------- */
+.header{
+  display:flex;
+  gap:18px;
+  align-items:flex-start;
+  justify-content:space-between;
+  padding: 22px 22px 16px 22px;
+}
+.header__name{
+  font-size: 34px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+.header__label{
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.header__meta{
+  text-align:right;
+  font-size: 13px;
+  color: var(--muted);
+}
+.header__meta a{color: var(--muted)}
+.header__meta a:hover{color: var(--accent)}
+
+/* ---------- Section pattern ---------- */
+.section{
+  padding: 18px 22px;
+}
+.section + .section{ border-top:1px solid var(--line) }
+.section__title{
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.item{ margin-bottom: 12px }
+.item:last-child{ margin-bottom: 0 }
+.item__title{
+  font-weight: 650;
+  font-size: 14px;
+}
+.item__meta{
+  color: var(--muted);
+  font-size: 13px;
+}
+.item__bullets{ margin-top: 8px }
+
+/* ---------- Collapsible sections (HTML resume) ---------- */
+.section-details{ }
+
+.section-details > summary.section__title{
+  list-style:none;
+  cursor:pointer;
+  user-select:none;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:0; /* override default */
+}
+.section-details > summary.section__title::-webkit-details-marker{ display:none }
+.section-details > summary.section__title::marker{ content:"" }
+
+.section-details > summary.section__title::after{
+  content:"▸";
+  display:inline-block;
+  font-size:14px;
+  line-height:1;
+  color: var(--muted);
+  transform: rotate(0deg);
+  transition: transform 120ms ease;
+}
+.section-details[open] > summary.section__title::after{ transform: rotate(90deg); }
+
+.section-details[open] > summary.section__title{ margin-bottom:10px; }
+.section-details:not([open]) > summary.section__title{ margin-bottom:0; }
+
+.section-details > summary.section__title:focus{
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+
+/* --- Viewer-controlled verbosity toggles (controls live in the parent page) --- */
+.hide-academics .section-academics{ display:none !important }
+.hide-course-desc .course-desc{ display:none !important }
+.hide-course-skills .course-skills{ display:none !important }
+.hide-appendix .appendix{ display:none !important }
+
+.hide-training-desc .training-desc{ display:none !important }
+.hide-training-skills .training-skills{ display:none !important }
+.hide-cert-desc .cert-desc{ display:none !important }
+.hide-cert-skills .cert-skills{ display:none !important }
+.hide-job-desc .job-desc{ display:none !important }
+.hide-award-desc .award-desc{ display:none !important }
+
+/* ---------- Footer ---------- */
+.doc-footer{
+  padding: 14px 18px 26px 18px;
+}
+.doc-footer__inner{
+  max-width: var(--page-max);
+  margin: 0 auto;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px){
+  .container{ padding: 22px 14px; }
+}
+
+@media (max-width: 820px){
+  .header{ flex-direction: column; align-items:flex-start; }
+  .header__meta{ text-align:left; max-width:none; }
+}
+
+@media (max-width: 520px){
+  .container{ padding: 18px 12px; }
+  .header{ padding: 18px 16px 12px 16px; }
+  .header__name{ font-size: 30px; }
+  .section{ padding: 16px 16px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{scroll-behavior:auto !important; transition:none !important; animation:none !important}
+}
+
+/* ---------- Print ---------- */
+@media print{
+  body{ background: #ffffff; color:#000000 }
+  a{ color:#000000; text-decoration:none }
+  .doc-footer{ display:none }
+  .chip{ border-color:#bbb; background: transparent }
+  .card{ border-color:#bbb }
+  .container{ max-width:none; padding: 0 }
+  .print-hide{ display:none !important; }
+  details.section-details > summary.section__title::after{ display:none !important }
+  details.section-details > summary.section__title{ cursor: default; }
+  details.section-details:not([open]) > *:not(summary){ display:block !important; }
+
+}
+
+
+:root{
+  --bg:#fbf7ef;
+  --surface: rgba(255,255,255,0.55);
+  --text:#2b2118;
+  --muted:#6b5a46;
+  --line:#e5d8c8;
+  --chip-bg: rgba(43,33,24,0.05);
+  --accent:#9a5b13;
+  --accent-2:#0f766e;
+}
+
+
+/* Federal/USAJobs-friendly layout */
+.fed{ max-width: 1040px; }
+.fed-header .header__name{ font-size: 26px; }
+.fed-main{ padding: 22px; }
+.fed-item{ padding: 12px 0; border-top: 1px solid rgba(36,43,56,0.12); }
+.fed-item:first-child{ border-top: 0; }
+
+  </style>
+</head>
+<body>
+  <a class="skiplink" href="#main" data-i18n="nav.skip_to_content">Skip to content</a>
+
+  
+<main id="main" class="container fed">
+  <header class="card header fed-header">
+    <div>
+      <div class="header__name" data-no-tx>Brett K. Fry</div>
+      
+      
+        <div class="header__label">Cybersecurity Leader | DCO / SecOps Planning | Threat Hunting &amp; Detection Engineering | Incident Response</div>
+      
+      <div class="muted small" style="margin-top:6px">Grand Prairie, TX (Open to Remote/Hybrid)</div>
+    </div>
+
+    <div class="header__meta">
+      
+      
+        
+          <div>brett.k.fry@…</div>
+        
+      
+      <div>+1 (210) 526-4589</div>
+      <div><a href="https://www.fryonline.net/" data-i18n="label.website">Website</a></div>
+      
+        
+          
+            <div><a href="https://www.linkedin.com/in/brettfry2002">LinkedIn</a></div>
+          
+        
+          
+            <div><a href="https://www.giac.org/certified-professional/Brett-Fry/157586">GIAC Profile</a></div>
+          
+        
+          
+            <div><a href="https://www.sans.org/white-papers/automating-rmf-steps-using-lightweight-scripts-and-tools">SANS Paper</a></div>
+          
+        
+      
+    </div>
+  </header>
+
+  <article class="card fed-main">
+    <details class="section section-details" open>
+      <summary class="section__title" data-i18n="section.summary">Summary</summary>
+      
+        <p class="summary">Cybersecurity and secure communications professional with 20+ years of US Army experience spanning Defensive Cyber Operations (DCO), security operations/continuous monitoring, incident response support, and COMSEC program management.</p>
+      
+        <p class="summary">Leads joint/CCMD Defensive Cyber Operations (DCO) planning using deliberate and crisis action planning (JOPP/JOPES-aligned), translating mission objectives into executable cyber and C4I/enterprise IT plans.</p>
+      
+        <p class="summary">Specializes in ATT&CK-aligned threat hunting, detection engineering, and telemetry-driven investigations across SIEM/EDR/network/cloud sources; experienced producing executive-ready reporting and remediation plans.</p>
+      
+        <p class="summary">Graduate-level focus areas include auditing & monitoring, CIS Critical Controls, intrusion detection, incident handling, cyber threat intelligence, and defensible security architecture/engineering.</p>
+      
+        <p class="summary">Proven record (evaluation-documented) of improving readiness and inspection outcomes through disciplined accountability, policy/process development, and hands-on training/mentoring.</p>
+      
+    </details>
+
+    <details class="section section-details">
+      <summary class="section__title" data-i18n="section.core_competencies">Core Competencies</summary>
+      <div class="chips">
+        
+          <span class="chip">Threat Hunting & Detection Engineering (MITRE ATT&CK)</span>
+        
+          <span class="chip">SIEM Content & Analytics (Splunk / ELK / Sentinel; SPL/KQL)</span>
+        
+          <span class="chip">Incident Response Support & DFIR (endpoint, log, network)</span>
+        
+          <span class="chip">Cyber Threat Intelligence (OSINT, IOC/TTP enrichment)</span>
+        
+          <span class="chip">Cloud Threat Detection Concepts (AWS / Azure / GCP)</span>
+        
+          <span class="chip">Vulnerability Assessment & Web App Testing</span>
+        
+          <span class="chip">NIST / RMF / eMASS / ATO Support</span>
+        
+          <span class="chip">COMSEC / KMI Program Leadership</span>
+        
+          <span class="chip">Executive Communication, Training & Mentorship</span>
+        
+      </div>
+    </details>
+
+    <details class="section section-details" open>
+      <summary class="section__title" data-i18n="section.experience">Experience</summary>
+      
+        <div class="item fed-item">
+          <div class="item__title">Lead Defensive Cyber Operations Analyst/Planner</div>
+          <div class="item__meta">USAFRICOM • Defensive Cyber Operations • Sep 2021 – May 2025 • Stuttgart, Germany</div>
+
+          
+          
+            <div class="job-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Role explanation</div>
+              <div class="muted">Lead and coordinate Defensive Cyberspace Operations (DCO) and threat-hunting activities for a Combatant Command (CCMD) environment. Translate mission priorities, threat intelligence, and adversary TTPs into actionable detections, investigations, and risk decisions across endpoint, network, and cloud/identity telemetry. Focused on translating commander’s intent into executable DCO and C4I/enterprise IT plans within a Combatant Command environment, coordinating across joint/coalition stakeholders.</div>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.responsibilities">Responsibilities</div>
+              <ul class="bullets"><li>Own the DCO planning and execution cycle: define priorities, scope hunts, coordinate collection/visibility, and track remediation to closure.</li><li>Lead escalated investigations and incident response across multiple data sources (endpoint, SIEM, network telemetry, and cloud/identity logs), ensuring containment, eradication, recovery, and after-action reporting.</li><li>Drive detection engineering: map threats to MITRE ATT&CK, develop/refine detection logic, tune alert fidelity, and reduce false positives through enrichment and correlation.</li><li>Build and maintain threat-hunting playbooks (hypothesis-driven hunts, IOC/TTP pivots, validation criteria) and mentor analysts on repeatable hunt methodology.</li><li>Coordinate purple-team and tabletop exercises to validate detection coverage and incident response playbooks; turn exercise findings into measurable improvements (MTTD/MTTR, coverage gaps).</li><li>Provide cybersecurity governance support (RMF/ATO lifecycle, NIST 800-53 control status, POA&Ms, risk acceptance documentation) and communicate risk to leadership with clear decision options.</li><li>Deliberate and crisis action planning support for cyberspace operations (JOPP-aligned), including cyber inputs to plans and orders.</li><li>C4I / enterprise IT planning integration—secure communications architecture considerations for operational readiness and continuity.</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.deliverables">Deliverables</div>
+              <ul class="bullets"><li>Threat hunting playbooks and ATT&CK coverage mappings</li><li>Detection rules / analytic queries, SIEM dashboards, and alert tuning documentation</li><li>Incident timelines, evidence packages, and executive/technical incident reports</li><li>ATO artifacts (SSP inputs, control implementation status, POA&Ms) and compliance reporting (e.g., eMASS-ready content)</li><li>After-action reports and remediation plans from exercises and assessments</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Common tools / environments</div>
+              <div class="chips">
+                <span class="chip">SIEM/SOAR concepts and tooling (e.g., Splunk/ELK-style pipelines)</span><span class="chip">EDR platforms (e.g., CrowdStrike/SentinelOne-style telemetry)</span><span class="chip">Network analysis tools (e.g., Wireshark/flow analysis)</span><span class="chip">Threat intel enrichment (OSINT, DNS/WHOIS/hosting pivots)</span><span class="chip">MITRE ATT&amp;CK mapping, YARA-style pattern logic, scripting/automation</span>
+              </div>
+            </div>
+          
+
+          
+          
+            <div style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Detailed accomplishments &amp; responsibilities</div>
+              <ul>
+                
+                  <li>Led a 27-member cyber threat hunting and defensive cyber operations (DCO) team within a Joint/Combatant Command (CCMD) environment, developing proactive cyber threat detection strategies and ensuring mission-critical security resilience.</li>
+                
+                  <li>Directed advanced threat hunting and adversarial simulations to detect persistent threats, behavioral anomalies, and attack vectors in enterprise IT and embedded systems.</li>
+                
+                  <li>Designed and executed offensive security assessments using MITRE ATT&amp;CK, adversary emulation, and purple team testing to enhance cyber defense capabilities (including purple-team/tabletop exercises to validate detections and playbooks).</li>
+                
+                  <li>Developed threat intelligence and behavioral analytics frameworks to identify cyber adversaries’ tactics, techniques, and procedures (TTPs), integrating machine learning-based anomaly detection for improved risk assessment.</li>
+                
+                  <li>Led red team operations, penetration testing, and breach simulation exercises utilizing Metasploit, Burp Suite, Wireshark, and custom exploit development, identifying high-impact vulnerabilities and misconfigurations.</li>
+                
+                  <li>Served as an ISSM and cybersecurity governance leader, ensuring RMF, NIST, and Zero Trust Architecture compliance while managing cyber risk assessments for classified enclaves.</li>
+                
+                  <li>Executed proactive threat mitigation strategies, continuously refining Threat Hunting Playbooks, Indicators of Compromise (IOCs), and attack detection techniques (TTP/IOC codification to improve triage; fed into detection rules and incident response playbooks).</li>
+                
+                  <li>Developed and led a Cyber Threat Intelligence (CTI) initiative, leveraging OSINT, threat feeds, and advanced data correlation techniques to predict and disrupt cyber threats before exploitation (monitoring emerging threats, zero-days, and vulnerability trends to prioritize investigative leads).</li>
+                
+                  <li>Managed cyber risk assessments and secured a 3-year Authority to Operate (ATO) through proactive compliance with NIST 800-53, DISA CCRI, and eMASS security protocols.</li>
+                
+                  <li>Designed and implemented a real-time attack surface monitoring framework, reducing time-to-detection for cyber incidents by 40%.</li>
+                
+                  <li>Drove cyber strategy alignment with business objectives, ensuring seamless integration of cloud security (AWS, Azure), SIEM (Splunk, ELK), and endpoint protection (CrowdStrike, SentinelOne).</li>
+                
+                  <li>Spearheaded blue team threat detection improvements, optimizing YARA rule development, network flow analysis, and forensic artifact collection.</li>
+                
+                  <li>Enhanced proactive detection and response capabilities by deploying behavior-based analytics, deception technologies, and threat-hunting automation.</li>
+                
+                  <li>Developed and delivered enterprise-wide cybersecurity training on threat hunting methodologies, TTP mapping, and cyber incident containment, elevating team proficiency in threat detection and response.</li>
+                
+                  <li>Managed large-scale cybersecurity initiatives, implementing automated threat detection processes and streamlining cybersecurity response frameworks to enhance operational efficiency (enhanced incident response tools/workflows and lightweight scripts to improve investigation efficiency).</li>
+                
+                  <li>Led real-time cyber event correlation and forensic investigations, providing executive-level briefings on cyber risk posture, threat actor trends, and recommended countermeasures (supported detection, containment, eradication, recovery, and post-incident technical reporting).</li>
+                
+                  <li>Continuously refined detection engineering and TTP-based defense mechanisms, ensuring resilience against Advanced Persistent Threats (APTs) and evolving cyber adversaries.</li>
+                
+                  <li>Planned and executed strategic cyber initiatives, aligning proactive cyber defense, risk analytics, and intelligence-driven security operations with enterprise risk management strategies.</li>
+                
+                  <li>Led a 27-member cyber threat hunting and defensive cyber operations (DCO) team within a Joint/Combatant Command (CCMD) environment, overseeing SOC monitoring and alert investigations; personally led escalated investigations across endpoint, network, and cloud/identity telemetry.</li>
+                
+                  <li>Designed and executed offensive security assessments using MITRE ATT&amp;CK, adversary emulation, and purple team testing to enhance cyber defense capabilities.</li>
+                
+                  <li>Executed proactive threat mitigation strategies, continuously refining Threat Hunting Playbooks, Indicators of Compromise (IOCs), and SIEM detection logic (event/log parsing, enrichment, behavior analytics) to improve signal quality, reduce false positives, and expand visibility.</li>
+                
+                  <li>Developed and led a Cyber Threat Intelligence (CTI) initiative, leveraging OSINT, threat feeds, and advanced data correlation techniques to predict and disrupt cyber threats before exploitation.</li>
+                
+                  <li>Performed threat-infrastructure pivots using DNS/WHOIS and hosting/ASN context to correlate related domains/IPs, enrich investigations, and drive URL/domain block recommendations and remediation guidance.</li>
+                
+                  <li>Drove cyber strategy alignment with business objectives, ensuring seamless integration of cloud security (AWS, Azure), SIEM (Splunk, ELK), endpoint protection (CrowdStrike, SentinelOne), and secure email/web gateway controls.</li>
+                
+                  <li>Managed large-scale cybersecurity initiatives, implementing automation and SOAR-style workflows while partnering with tooling teams/vendors to improve detections, playbooks, and SOC performance metrics (MTTD/MTTR); provided continuous feedback to improve telemetry quality and analyst workflows.</li>
+                
+                  <li>Led security incident investigations and forensic analysis, ensuring timely containment and root-cause determination; authored Findings Reports with documented evidence and prioritized remediation recommendations for stakeholders and partner teams.</li>
+                
+                  <li>Executed proactive threat mitigation strategies, continuously refining Threat Hunting Playbooks, Indicators of Compromise (IOCs), and attack detection techniques.</li>
+                
+                  <li>Managed large-scale cybersecurity initiatives, implementing automated threat detection processes and streamlining cybersecurity response frameworks to enhance operational efficiency.</li>
+                
+                  <li>Led real-time cyber event correlation and forensic investigations, providing executive-level briefings on cyber risk posture, threat actor trends, and recommended countermeasures.</li>
+                
+                  <li>Led joint/CCMD Defensive Cyber Operations (DCO) planning and contributed to C4I/enterprise IT planning, developing secure communications and cyber frameworks to support mission‑critical operations—including crisis response, continuity, and wartime scenarios.</li>
+                
+                  <li>Applied the Joint Operations Planning Process (JOPP) to produce adaptive defensive cyberspace strategies, assessing operational impacts and integrating planning across joint and coalition partners.</li>
+                
+                  <li>Developed and synchronized cyberspace plans, orders, and annex inputs (e.g., cyber support to OPLAN/CONPLAN/FRAGOs), ensuring alignment with mission objectives, risk posture, and DoD/JCS directives.</li>
+                
+              </ul>
+            </div>
+          
+        </div>
+      
+        <div class="item fed-item">
+          <div class="item__title">Senior Incident Responder/Cyber Network Defender</div>
+          <div class="item__meta">US Army • 392ND ESB, Network Operations and Security Branch • Aug 2018 – Sep 2021 • Baltimore, Maryland</div>
+
+          
+          
+            <div class="job-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Role explanation</div>
+              <div class="muted">Operate as a senior defender and incident responder for Army/DoD networks, combining hands-on incident handling with security hardening, monitoring improvements, and compliance support for mission systems and enclaves. Managed and delivered dozens of concurrent security projects while serving as a senior incident responder and cyber network defender in an enterprise DoD environment.</div>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.responsibilities">Responsibilities</div>
+              <ul class="bullets"><li>Perform triage and investigation of security events, identify root cause, and coordinate containment and remediation actions with system owners and administrators.</li><li>Conduct threat hunting, log review, and basic forensic artifact collection to support incident response and improve defensive visibility.</li><li>Support vulnerability management: coordinate scanning, prioritize findings, track remediation, and validate fixes through retest/verification.</li><li>Implement and validate security controls (hardening/STIG-aligned baselines, account/access controls, logging requirements) and document evidence for compliance packages.</li><li>Develop SOPs and train/mentor teammates on incident response procedures, reporting standards, and defensive best practices.</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.deliverables">Deliverables</div>
+              <ul class="bullets"><li>Incident response reports and evidence summaries</li><li>Vulnerability scan summaries, prioritization/risk narratives, and remediation tracking</li><li>Security SOPs, runbooks, and training materials</li><li>Control evidence and documentation for compliance/authorization activities</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Common tools / environments</div>
+              <div class="chips">
+                <span class="chip">EDR/SIEM monitoring and alert triage workflows</span><span class="chip">Vulnerability scanners and configuration/hardening guidance (e.g., STIG concepts)</span><span class="chip">Windows and Linux administrative tooling</span><span class="chip">Network troubleshooting and packet/log analysis</span>
+              </div>
+            </div>
+          
+
+          
+          
+            <div style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Detailed accomplishments &amp; responsibilities</div>
+              <ul>
+                
+                  <li>Served as an ISSM for three classified enclaves, overseeing mission-critical cyber threat detection and incident response operations. Managed 30+ cybersecurity projects, developed cyber threat hunting strategies, and implemented proactive risk mitigation aligned with DoD and NIST 800-53 standards.</li>
+                
+                  <li>Designed, integrated, and led proactive threat-hunting programs, correlating TTP-based detections, machine learning analytics, and anomaly-based defense techniques to protect critical networks.</li>
+                
+                  <li>Developed and led real-time cyber threat intelligence fusion, mapping nation-state and cybercriminal adversary TTPs using MITRE ATT&amp;CK, behavioral analytics, and forensic analysis to preemptively mitigate cyber threats.</li>
+                
+                  <li>Spearheaded strategic threat intelligence integration, leveraging threat modeling, adversary simulation, and network forensics to enhance proactive cyber defenses and minimize dwell time of sophisticated threats.</li>
+                
+                  <li>Developed and executed automation frameworks for vulnerability scanning, leveraging custom Python-based tools to accelerate threat detection by 30%, increasing red team efficiency and reducing false positives (expanded to automated triage and faster investigative evidence collection).</li>
+                
+                  <li>Authored white papers and internal threat intelligence guides, providing actionable insights into evolving cyber threats, APT methodologies, and zero-day exploit detection for executive leadership (including post-incident technical reports and remediation recommendations).</li>
+                
+                  <li>Led the development of automated threat-hunting workflows, leveraging SIEM data analysis (Splunk, ELK Stack, Sentinel), anomaly detection algorithms, and network flow analytics to reduce response time to cyber incidents (improved alert fidelity and reduced time-to-containment for high-severity incidents).</li>
+                
+                  <li>Developed and refined risk scoring models, analyzing attack surface vulnerabilities, asset criticality, and threat intelligence correlation to prioritize high-risk security gaps for remediation.</li>
+                
+                  <li>Led advanced cyber audits and forensic investigations across 100+ networks and 2,000 systems, identifying and mitigating vulnerabilities through real-time network traffic analysis, packet inspection (Wireshark, Tcpdump), and log correlation (determined extent/scope of compromise and drove tactical/strategic remediation plans).</li>
+                
+                  <li>Implemented AI-driven cyber threat analytics, reducing false positive alerts by 40% and improving endpoint detection and response (EDR) tuning across enterprise security platforms.</li>
+                
+                  <li>Delivered enterprise-wide cybersecurity training on threat hunting methodologies, equipping teams with advanced skills in malware analysis, TTP-based hunting, and proactive security engineering.</li>
+                
+                  <li>Saved $200,000 in operational costs by implementing automated data integrity solutions, enhancing threat intelligence processing and cybersecurity incident response readiness.</li>
+                
+                  <li>Led security awareness programs and cyber readiness exercises, training 100+ personnel on incident response, cloud security threats (AWS, Azure), and cyber resilience strategies (included incident response tabletop exercises and containment drills).</li>
+                
+                  <li>Developed and executed automation frameworks for vulnerability scanning, leveraging custom Python-based tools to accelerate threat detection by 30%, increasing red team efficiency and reducing false positives.</li>
+                
+                  <li>Authored post-incident findings reports and internal threat intelligence guides, providing actionable insights into evolving cyber threats, APT methodologies, and remediation recommendations for leadership.</li>
+                
+                  <li>Led the development of automated threat-hunting workflows, leveraging SIEM data analysis (Splunk, ELK Stack), anomaly detection algorithms, and network flow analytics to enable faster alert triage and reduce response time to cyber incidents.</li>
+                
+                  <li>Led advanced cyber audits and forensic investigations across 100+ networks and 2,000 systems, collecting and analyzing evidence via network traffic analysis (Wireshark, Tcpdump) and log correlation to determine scope, impact, and remediation actions.</li>
+                
+                  <li>Led security awareness programs and cyber readiness exercises, training 100+ personnel on incident response, cloud security threats (AWS, Azure), and cyber resilience strategies.</li>
+                
+                  <li>Authored white papers and internal threat intelligence guides, providing actionable insights into evolving cyber threats, APT methodologies, and zero-day exploit detection for executive leadership.</li>
+                
+                  <li>Led the development of automated threat-hunting workflows, leveraging SIEM data analysis (Splunk, ELK Stack), anomaly detection algorithms, and network flow analytics to reduce response time to cyber incidents.</li>
+                
+                  <li>Led advanced cyber audits and forensic investigations across 100+ networks and 2,000 systems, identifying and mitigating vulnerabilities through real-time network traffic analysis, packet inspection (Wireshark, Tcpdump), and log correlation.</li>
+                
+                  <li>Managed 30+ mission‑critical cybersecurity initiatives/projects, refining plans and procedures to address emerging threats while aligning outcomes with DoD standards and timelines.</li>
+                
+                  <li>Prepared for and supported cybersecurity compliance/readiness inspections (e.g., CCRI) by coordinating vulnerability remediation, evidence collection, and control validation across stakeholders.</li>
+                
+                  <li>Leveraged enterprise vulnerability management tooling (e.g., ACAS) to prioritize remediation, reduce exposure, and sustain continuous monitoring baselines.</li>
+                
+              </ul>
+            </div>
+          
+        </div>
+      
+        <div class="item fed-item">
+          <div class="item__title">Senior COMSEC Account Manager (Additional Duty)</div>
+          <div class="item__meta">US Army • HHC, 392nd Expeditionary Signal Battalion (ESB) • Aug 2018 – Aug 2020 • Baltimore, MD</div>
+
+          
+          
+            <div class="job-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Role explanation</div>
+              <div class="muted">Manage a COMSEC account as an additional duty: safeguard and account for cryptographic keying material and COMSEC equipment, enforce policy compliance, and enable secure communications for supported units.</div>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.responsibilities">Responsibilities</div>
+              <ul class="bullets"><li>Maintain end-to-end accountability for keying material and cryptographic devices (inventories, issue/receipt, destruction, and incident reporting).</li><li>Operate COMSEC management systems and workflows (KMI/LCMS-style processes), ensuring accurate records and audit readiness.</li><li>Conduct internal inspections and prepare for external audits/assistance visits; correct discrepancies and implement procedural fixes.</li><li>Train custodians and end users on secure handling procedures, reporting requirements, and day-to-day COMSEC operations.</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.deliverables">Deliverables</div>
+              <ul class="bullets"><li>COMSEC account records, inventories, and audit artifacts</li><li>Keying material distribution/turn-in documentation</li><li>COMSEC SOPs and training/checklists</li><li>Corrective action plans from audits/inspections</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Common tools / environments</div>
+              <div class="chips">
+                <span class="chip">KMI/LCMS account workflows and reporting</span><span class="chip">Cryptographic equipment handling procedures</span><span class="chip">COMSEC incident reporting and audit preparation</span>
+              </div>
+            </div>
+          
+
+          
+          
+            <div style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Detailed accomplishments &amp; responsibilities</div>
+              <ul>
+                
+                  <li>Saved a neglected COMSEC account from the brink of closure resulting in the account passing the CSLA inspection.</li>
+                
+                  <li>Obtained GCFA and recertified GSLC and improved Unit&#39;s ability to reimage systems repair by 100%.</li>
+                
+                  <li>Exceeded Unit requirement for PME and successfully completed the Master Leader Course.</li>
+                
+                  <li>Reduced unit readiness data discrepancies and improved reporting by more than 70%.</li>
+                
+                  <li>Conducted AIP to four downtrace companies spread across three states.</li>
+                
+                  <li>Displayed the highest level of integrity, ingenuity, &amp; confidence to advocate for others resulting in recognition from higher HQs.</li>
+                
+                  <li>Trained and mentored 6 Soldiers on SMART-T and COMSEC operations throughout the Command.</li>
+                
+                  <li>Trained and mentored 8 Soldiers while processing more than 600 COMSEC actions to pass inspections by AAA and CSLA.</li>
+                
+                  <li>Input more than 30 Soldiers for schools and mentored subordinates on career paths.</li>
+                
+                  <li>Honor Graduate of the AEHF Mission Planners Course; increased entire Brigade AEHF readiness by 100 percent.</li>
+                
+                  <li>Obtained GIAC Certified Windows Security Administrator (GCWN and SANS Security Awareness Professional (SSAP).</li>
+                
+                  <li>Exceeded Unit requirement for PME and successfully completed the Senior Enlisted Joint Professional Military Education II.</li>
+                
+                  <li>Successfully completed the Joint C4 Planners course; and was essential in planning for CSTX 78-20-04.</li>
+                
+                  <li>Selected by CSLA to serve on Army-wide panel for COMSEC based on technical expertise.</li>
+                
+                  <li>Planned, coordinated, and trained more than 32 Soldiers on the SMART-T; increased the number of trained from 6 to 38.</li>
+                
+                  <li>Trained and mentored more than 30 mobilizing Soldiers on Signal maintenance and Soldier tasks.</li>
+                
+                  <li>Created 4 policies and processes that increased accountability and readiness; resulted in adoption and recognition by DIV/BDE.</li>
+                
+              </ul>
+            </div>
+          
+        </div>
+      
+        <div class="item fed-item">
+          <div class="item__title">Senior COMSEC Account Manager/Cyber Network Defender</div>
+          <div class="item__meta">US Army • 35th ESB, Cyber and Communications Security Branch • Oct 2016 – Jul 2018 • Fort Allen, Puerto Rico</div>
+
+          
+          
+            <div class="job-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Role explanation</div>
+              <div class="muted">Blend COMSEC program management with cyber defense responsibilities—supporting secure communications while contributing to defensive security operations and incident response.</div>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.responsibilities">Responsibilities</div>
+              <ul class="bullets"><li>Perform COMSEC account manager duties (keying material accountability, audits, compliance) while supporting cyber defense functions for mission networks.</li><li>Coordinate with S6/NetOps and security teams to align cryptographic support with operational requirements and security controls.</li><li>Support incident response and defensive monitoring activities when needed, contributing to investigations and remediation.</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.deliverables">Deliverables</div>
+              <ul class="bullets"><li>COMSEC program documentation and audit artifacts</li><li>Secure communications enablement for supported units</li><li>Security support documentation and incident response inputs (as applicable)</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Common tools / environments</div>
+              <div class="chips">
+                <span class="chip">COMSEC management processes (KMI/LCMS concepts)</span><span class="chip">Network operations coordination and documentation</span><span class="chip">Basic defensive monitoring workflows</span>
+              </div>
+            </div>
+          
+
+          
+          
+            <div style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Detailed accomplishments &amp; responsibilities</div>
+              <ul>
+                
+                  <li>Managed over 1,000 classified assets and led cyber threat defense strategies, ensuring secure handling, proactive cyber threat detection, and APT mitigation to protect mission-critical networks from emerging cyber threats.</li>
+                
+                  <li>Maintained and enhanced security compliance frameworks, ensuring System Security Plans (SSPs), vulnerability mitigation records, and cyber risk assessments aligned with NIST, MITRE ATT&amp;CK, and DoD cybersecurity standards.</li>
+                
+                  <li>Developed and executed scalable cyber defense strategies, translating threat intelligence and behavioral analytics into actionable security operations that reduced dwell time of malicious actors.</li>
+                
+                  <li>Monitored real-time industry threat intelligence, integrating MITRE ATT&amp;CK updates, zero-day vulnerabilities, and adversary TTPs into advanced threat detection and incident response strategies (updated detections/playbooks with adversary TTPs and IOCs identified in the wild).</li>
+                
+                  <li>Led proactive threat-hunting programs, leveraging behavioral analytics, SIEM-based detections (Splunk, ELK) and endpoint forensics to identify stealthy attacks before exploitation.</li>
+                
+                  <li>Designed and led cyber threat intelligence fusion efforts, applying threat modeling, deception technologies, and red teaming insights to predict and neutralize cyber adversary activities.</li>
+                
+                  <li>Led cross-domain cybersecurity operations, ensuring secure communications, network segmentation, and cloud security hardening across land, air, space, and cyberspace environments.</li>
+                
+                  <li>Spearheaded disaster recovery and incident response strategies, securing 100% operational continuity of mission-critical communication systems during Hurricanes Irma and Maria, mitigating cyber risks in high-stress environments (executed recovery procedures and continuity communications during major outages).</li>
+                
+                  <li>Conducted large-scale threat assessments, auditing 100+ networks and 2,000 systems, identifying and eliminating high-risk vulnerabilities using network forensics, packet analysis (Wireshark, Tcpdump), and exploit simulation.</li>
+                
+                  <li>Reduced cyber incidents by 75% by implementing automated anomaly detection, adversary tracking, and cyber readiness programs, while training 60+ personnel in cyber defense tactics and security operations.</li>
+                
+                  <li>Developed cutting-edge threat detection frameworks, utilizing adversary emulation, purple team testing, and machine learning-based anomaly detection to enhance proactive threat hunting.</li>
+                
+                  <li>Generated cyber risk reports and strategic action plans, aligning security operations with business risk priorities to drive enterprise-wide resilience against cyber threats.</li>
+                
+                  <li>Served as a key cybersecurity strategist, organizing cybersecurity forums and intelligence-sharing collaborations, improving threat visibility, risk mitigation strategies, and cross-team cyber readiness.</li>
+                
+                  <li>Designed and maintained a robust cyber infrastructure, ensuring secure network architecture, cloud security best practices, and threat intelligence-driven access control policies for enhanced security resilience.</li>
+                
+                  <li>Monitored real-time industry threat intelligence, integrating MITRE ATT&amp;CK updates, zero-day vulnerabilities, and adversary TTPs into advanced threat detection and incident response strategies.</li>
+                
+                  <li>Spearheaded disaster recovery and incident response strategies, securing 100% operational continuity of mission-critical communication systems during Hurricanes Irma and Maria, mitigating cyber risks in high-stress environments.</li>
+                
+                  <li>Generated cyber risk reports and strategic action plans with documented findings and prioritized remediation steps, aligning security operations with business risk priorities to drive enterprise-wide resilience against cyber threats.</li>
+                
+                  <li>Led proactive threat-hunting programs, leveraging behavioral analytics, SIEM-based detections (Splunk, ELK, Sentinel), and endpoint forensics to identify stealthy attacks before exploitation.</li>
+                
+              </ul>
+            </div>
+          
+        </div>
+      
+        <div class="item fed-item">
+          <div class="item__title">Network Operations Specialist</div>
+          <div class="item__meta">US Army • 7th MSC, Network Operations and Security Center • Mar 2013 – Oct 2016 • Kaiserslautern, Germany</div>
+
+          
+          
+            <div class="job-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Role explanation</div>
+              <div class="muted">Operate and maintain enterprise and tactical network services, ensuring availability, performance, and secure configuration of systems supporting mission operations.</div>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.responsibilities">Responsibilities</div>
+              <ul class="bullets"><li>Provide network operations support (monitoring, troubleshooting, service restoration) across routing/switching, transport, and server services.</li><li>Administer user/services access (account provisioning, permissions, service continuity) and implement basic security controls (patching, configuration, logging).</li><li>Support field/training exercises by planning and deploying communications packages and resolving outages under time constraints.</li><li>Document network configurations, changes, and incident/problem tickets; coordinate with higher-level support and vendors as required.</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.deliverables">Deliverables</div>
+              <ul class="bullets"><li>Network diagrams and configuration documentation</li><li>Troubleshooting records and root-cause summaries</li><li>Change records and implementation notes</li><li>Exercise communications plans and after-action notes</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Common tools / environments</div>
+              <div class="chips">
+                <span class="chip">Routing/switching administration and monitoring concepts</span><span class="chip">Windows/Linux server administration</span><span class="chip">Ticketing/change management workflows</span><span class="chip">Basic network analysis and troubleshooting tools</span>
+              </div>
+            </div>
+          
+
+          
+          
+            <div style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Detailed accomplishments &amp; responsibilities</div>
+              <ul>
+                
+                  <li>Led cybersecurity operations for the largest NATO exercise in two decades, ensuring secure communication infrastructure, real-time threat detection, and cyber resilience across multinational networks. Coordinated secure information flow and cyber defense protocols to mitigate state-sponsored cyber threats and espionage risks.</li>
+                
+                  <li>Served as a cybersecurity SME and digital forensics lead, optimizing real-time cyber threat intelligence, adversary tracking, and risk mitigation strategies to strengthen network resilience and improve incident detection and response.</li>
+                
+                  <li>Managed end-to-end cyber threat detection and response strategies, overseeing network intrusion analysis, log correlation (SIEM), and behavioral analytics-based security for high-priority classified communications and mission-critical IT environments (SIEM alert triage, network intrusion analysis, and rapid escalation for incident response).</li>
+                
+                  <li>Provided direct cybersecurity leadership support to senior executives, ensuring secure command communications and implementing cyber threat mitigation measures to prevent cyber-physical attacks on mission systems.</li>
+                
+                  <li>Led the integration of advanced cyber defense technologies, improving real-time threat monitoring, network segmentation, and endpoint protection solutions across complex, multi-domain network environments.</li>
+                
+                  <li>Designed and implemented advanced cyber threat detection policies and frameworks, utilizing MITRE ATT&amp;CK-based attack simulations, adversary emulation, and red team exercises to proactively hunt for advanced persistent threats (APTs).</li>
+                
+                  <li>Developed, monitored, and optimized cybersecurity governance policies, ensuring compliance with NIST 800-53, RMF, and Defense-in-Depth Security frameworks to reduce the attack surface and fortify enterprise security posture.</li>
+                
+                  <li>Directed cyber operations for multinational exercises, aligning cyber threat intelligence, attack surface management, and security operations center (SOC) enhancements to streamline cyber incident response and mitigate threat actor tactics.</li>
+                
+                  <li>Served as an Information Systems Security Officer (ISSO) and cyber risk leader, overseeing threat mitigation strategies, risk assessments, and enterprise cybersecurity frameworks to protect classified infrastructure and ensure regulatory compliance.</li>
+                
+                  <li>Led cyber threat intelligence fusion operations, correlating threat indicators, log analysis, and SIEM-driven detections (Splunk, ELK) to rapidly identify and neutralize cyber threats targeting mission-critical systems.</li>
+                
+                  <li>Developed and refined cyber threat-hunting workflows, integrating behavior-based anomaly detection, network traffic analysis, and digital forensics methodologies to proactively identify and disrupt adversarial operations.</li>
+                
+                  <li>Executed large-scale cybersecurity initiatives during multinational exercises (BALTOPS, NATO operations), ensuring real-time network defense, adversary engagement, and cross-domain threat intelligence sharing to secure mission-critical cyber operations.</li>
+                
+                  <li>Managed end-to-end cyber threat detection and response strategies, reviewing alerts, performing network intrusion analysis, correlating logs (SIEM), and escalating high-confidence incidents for containment and remediation.</li>
+                
+                  <li>Managed end-to-end cyber threat detection and response strategies, overseeing network intrusion analysis, log correlation (SIEM), and behavioral analytics-based security for high-priority classified communications and mission-critical IT environments.</li>
+                
+                  <li>Developed, monitored, and optimized cybersecurity governance policies, ensuring compliance with NIST 800-53, RMF, and Zero Trust Security frameworks to reduce the attack surface and fortify enterprise security posture.</li>
+                
+                  <li>Led cyber threat intelligence fusion operations, correlating threat indicators, log analysis, and SIEM-driven detections (Splunk, ELK, Sentinel) to rapidly identify and neutralize cyber threats targeting mission-critical systems.</li>
+                
+                  <li>Served as NCOIC/J6 lead during a major NATO exercise, overseeing mission communications infrastructure and ensuring availability, integrity, and confidentiality across a multinational environment.</li>
+                
+                  <li>Acted as the unit’s Signal Digital Master Gunner—optimizing and troubleshooting digital communications systems and integrating digital assets to enable resilient, secure network operations.</li>
+                
+              </ul>
+            </div>
+          
+        </div>
+      
+        <div class="item fed-item">
+          <div class="item__title">Information System Instructor</div>
+          <div class="item__meta">US Army • Training Command (TASS) • Oct 2010 – Mar 2013 • Sacramento, California</div>
+
+          
+          
+            <div class="job-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Role explanation</div>
+              <div class="muted">Deliver technical instruction and mentorship in information systems and cybersecurity topics to build operator and leader proficiency.</div>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.responsibilities">Responsibilities</div>
+              <ul class="bullets"><li>Develop and maintain lesson plans, practical labs, and assessment materials aligned to Army training requirements (TASS) and current security best practices.</li><li>Instruct and evaluate students on secure system administration, troubleshooting, incident reporting, and foundational cyber defense concepts.</li><li>Maintain training records and provide feedback/coaching to improve student performance and readiness for follow-on assignments.</li><li>Ensure classroom and lab environments are configured safely and consistently to support hands-on learning.</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.deliverables">Deliverables</div>
+              <ul class="bullets"><li>Lesson plans and courseware</li><li>Practical lab guides and checklists</li><li>Student evaluations and training records</li><li>After-action notes to improve future iterations</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Common tools / environments</div>
+              <div class="chips">
+                <span class="chip">Classroom/lab environments (Windows/Linux fundamentals)</span><span class="chip">Virtualization and training lab images (conceptual)</span><span class="chip">Network troubleshooting tools and exercises</span>
+              </div>
+            </div>
+          
+
+          
+          
+            <div style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Detailed accomplishments &amp; responsibilities</div>
+              <ul>
+                
+                  <li>Served as the lead technical instructor, responsible for training more than 300 students in cybersecurity principles, information systems security, and defensive cyber operations, ensuring compliance with cybersecurity standards and best practices.</li>
+                
+                  <li>Prepared classroom materials and lesson plans, developing and implementing comprehensive cybersecurity-focused curricula that covered information security protocols, cyber defense techniques, and the use of specialized tools.</li>
+                
+                  <li>Conducted classes in accordance with the Total Army School System (TASS), Army Regulations, and published Standard Operating Procedures (SOPs), ensuring that instructional content adhered to guidance and promoted secure information systems management.</li>
+                
+                  <li>Directed, supervised, planned, and coordinated classroom activities, fostering an interactive learning environment that equipped students to handle real-world cybersecurity challenges, perform risk assessments, and apply INFOSEC protocols.</li>
+                
+              </ul>
+            </div>
+          
+        </div>
+      
+        <div class="item fed-item">
+          <div class="item__title">Information System Team Chief</div>
+          <div class="item__meta">US Army • 325th Combat Support Hospital • Dec 2006 – Oct 2010 • Independence, Missouri</div>
+
+          
+          
+            <div class="job-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Role explanation</div>
+              <div class="muted">Supervise unit IT support activities, coordinating personnel and technical work to maintain service availability and enforce basic security practices.</div>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.responsibilities">Responsibilities</div>
+              <ul class="bullets"><li>Coordinate help-desk style support, user onboarding, troubleshooting, and service restoration.</li><li>Support server/workstation maintenance, patching, and backup routines; assist with change and configuration management.</li><li>Document equipment accountability, configurations, and recurring problems; brief leadership on operational status.</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.deliverables">Deliverables</div>
+              <ul class="bullets"><li>Troubleshooting logs and work summaries</li><li>Inventory/accountability documentation</li><li>Configuration notes and basic network diagrams (as required)</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Common tools / environments</div>
+              <div class="chips">
+                <span class="chip">Windows administration fundamentals</span><span class="chip">Ticketing/work order workflows (conceptual)</span><span class="chip">Basic network troubleshooting tools</span>
+              </div>
+            </div>
+          
+
+          
+          
+            <div style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Detailed accomplishments &amp; responsibilities</div>
+              <ul>
+                
+                  <li>Led a small information systems support team, coordinating day-to-day IT operations to keep mission and administrative services available; assigned tasks, tracked issues to closure, and mentored junior personnel.</li>
+                
+                  <li>Supported local network and endpoint operations (workstations, printers, user accounts, and basic server services), troubleshooting outages and restoring service rapidly.</li>
+                
+                  <li>Maintained configuration and accountability records for IT equipment; produced status updates and hand-offs to leadership and partner technical teams.</li>
+                
+                  <li>Applied information assurance practices (access control, patching, backups, and incident reporting) to sustain readiness and support inspections.</li>
+                
+              </ul>
+            </div>
+          
+        </div>
+      
+        <div class="item fed-item">
+          <div class="item__title">Senior Local Area Network Manager</div>
+          <div class="item__meta">US Army • Medical Deployment Support Command • Mar 2006 – Dec 2006 • Seagoville, Texas</div>
+
+          
+          
+            <div class="job-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Role explanation</div>
+              <div class="muted">Maintain local network services and user support, ensuring reliable connectivity and basic configuration management.</div>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.responsibilities">Responsibilities</div>
+              <ul class="bullets"><li>Troubleshoot LAN connectivity, workstation issues, and peripheral problems; restore service and document actions taken.</li><li>Support routine administration tasks (accounts, patching, configuration baselines) under supervision.</li><li>Maintain inventories and basic documentation for network and endpoint assets.</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.deliverables">Deliverables</div>
+              <ul class="bullets"><li>Outage/incident notes</li><li>Configuration and inventory records</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Common tools / environments</div>
+              <div class="chips">
+                <span class="chip">Network troubleshooting utilities (ping/traceroute, basic packet capture concepts)</span><span class="chip">Windows OS administration fundamentals</span>
+              </div>
+            </div>
+          
+
+          
+          
+            <div style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Detailed accomplishments &amp; responsibilities</div>
+              <ul>
+                
+                  <li>Managed local area network operations and end-user support, maintaining connectivity and resolving workstation and network issues to keep unit services operational.</li>
+                
+                  <li>Assisted with server and desktop administration tasks (account provisioning, configuration, patching, and basic maintenance) in accordance with unit procedures.</li>
+                
+                  <li>Documented network changes, outages, and corrective actions; coordinated restoration activities and escalated complex issues as required.</li>
+                
+              </ul>
+            </div>
+          
+        </div>
+      
+        <div class="item fed-item">
+          <div class="item__title">Network Manager</div>
+          <div class="item__meta">US Army • Aviation Intelligence Communications Support • Jun 2004 – Mar 2006 • Fort Knox, Kentucky / Kuwait / Iraq</div>
+
+          
+          
+            <div class="job-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Role explanation</div>
+              <div class="muted">Provide network and communications support for unit operations, sustaining connectivity and assisting with service restoration and documentation.</div>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.responsibilities">Responsibilities</div>
+              <ul class="bullets"><li>Assist with installation/configuration of network and workstation assets; troubleshoot outages and coordinate restoration.</li><li>Perform basic systems administration tasks (accounts, configurations, maintenance) and document actions taken.</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.deliverables">Deliverables</div>
+              <ul class="bullets"><li>Configuration notes and hand-offs</li><li>Incident/troubleshooting records</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Common tools / environments</div>
+              <div class="chips">
+                <span class="chip">Basic network troubleshooting tools and procedures</span><span class="chip">Windows OS and endpoint configuration concepts</span>
+              </div>
+            </div>
+          
+
+          
+          
+            <div style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Detailed accomplishments &amp; responsibilities</div>
+              <ul>
+                
+                  <li>Supported network operations and communications services across multiple locations, helping install, configure, and troubleshoot systems to maintain availability under operational timelines.</li>
+                
+                  <li>Performed user support and account management tasks, including workstation setup, permissions, and incident documentation.</li>
+                
+                  <li>Assisted with configuration control and equipment accountability, maintaining records for network and endpoint assets.</li>
+                
+              </ul>
+            </div>
+          
+        </div>
+      
+        <div class="item fed-item">
+          <div class="item__title">Information Systems Operator-Analyst (74B10)</div>
+          <div class="item__meta">US Army • Operation Iraqi Freedom (OIF) • Jun 2004 – Nov 2005 • Iraq</div>
+
+          
+          
+            <div class="job-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Role explanation</div>
+              <div class="muted">Provide hands-on IT operations and user support in an operational environment, maintaining computers, networks, and communications systems and troubleshooting outages to keep mission services available.</div>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.responsibilities">Responsibilities</div>
+              <ul class="bullets"><li>Install, configure, and troubleshoot computer systems and local networks; perform basic maintenance and repair of hardware and operating systems.</li><li>Support communications and data services in a deployed environment; coordinate restoration actions and escalate complex issues to higher support when needed.</li><li>Apply basic information assurance practices (user access control, security procedures, incident reporting) in accordance with unit SOPs.</li><li>Maintain technical documentation (system status, work orders, configuration notes) and assist with training users on systems and applications.</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.deliverables">Deliverables</div>
+              <ul class="bullets"><li>Work orders and troubleshooting documentation</li><li>Configured endpoints and network devices ready for operations</li><li>User support and training artifacts</li><li>Basic security/IA compliance actions and records</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Common tools / environments</div>
+              <div class="chips">
+                <span class="chip">Windows operating systems and common productivity software</span><span class="chip">LAN and basic routing/switching concepts</span><span class="chip">Hardware maintenance/repair procedures</span><span class="chip">Operational reporting and documentation processes</span>
+              </div>
+            </div>
+          
+
+          
+          
+            <div style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Detailed accomplishments &amp; responsibilities</div>
+              <ul>
+                
+                  <li>Deployed to Iraq in support of Operation Iraqi Freedom (OIF) from 2004-11-08 to 2005-10-14.</li>
+                
+                  <li>Served in MOS 74B10 (Information Systems Operator-Analyst) during service period 2004-06-06 to 2005-11-06.</li>
+                
+                  <li>Awards during this period include Army Commendation Medal, Iraq Campaign Medal, Global War on Terrorism Service Medal, and Armed Forces Reserve Medal (w/ M Device) (see DD214).</li>
+                
+                  <li>Provided day‑to‑day information systems operations support: account provisioning, workstation configuration, and troubleshooting for both administrative and mission environments (e.g., NIPR/SIPR when applicable).</li>
+                
+                  <li>Performed preventative maintenance and incident documentation; escalated complex issues and coordinated with signal/cyber teams to restore service quickly.</li>
+                
+              </ul>
+            </div>
+          
+        </div>
+      
+        <div class="item fed-item">
+          <div class="item__title">Information Systems Specialist</div>
+          <div class="item__meta">US Army • Information Systems Support • Jun 2002 – Jun 2004 • Multiple Locations (incl. Fort Eisenhower)</div>
+
+          
+          
+            <div class="job-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Role explanation</div>
+              <div class="muted">Perform foundational IT support and troubleshooting tasks, supporting users and maintaining basic system readiness.</div>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.responsibilities">Responsibilities</div>
+              <ul class="bullets"><li>Install and configure user workstations; assist with accounts and access under local procedures.</li><li>Troubleshoot common hardware/software issues and document actions for escalation when required.</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px" data-i18n="label.deliverables">Deliverables</div>
+              <ul class="bullets"><li>Trouble tickets/work summaries (as applicable)</li><li>Basic configuration documentation</li></ul>
+            </div>
+          
+
+          
+            <div class="job-desc" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Common tools / environments</div>
+              <div class="chips">
+                <span class="chip">Windows desktop support fundamentals</span><span class="chip">Basic network troubleshooting utilities</span>
+              </div>
+            </div>
+          
+
+          
+          
+            <div style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Detailed accomplishments &amp; responsibilities</div>
+              <ul>
+                
+                  <li>Provided entry-level information systems support, assisting with workstation setup, user support, troubleshooting, and routine maintenance to sustain daily operations.</li>
+                
+                  <li>Supported basic networking and systems administration tasks under supervision, building foundations in secure system handling, documentation, and customer support.</li>
+                
+              </ul>
+            </div>
+          
+        </div>
+      
+    </details>
+
+    
+    <details class="section section-details">
+      <summary class="section__title" data-i18n="section.skills">Skills</summary>
+      
+        <div class="item">
+          <div class="item__title">Threat Hunting &amp; Detection</div>
+          <div class="muted small">threat hunting, behavioral analytics, adversary emulation, MITRE ATT&amp;CK, kill chain defenses, purple teaming, alert triage, log analysis, IOC/TTP enrichment, hypothesis-driven hunts, playbooks, detection tuning, false-positive reduction</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title">SIEM &amp; Telemetry</div>
+          <div class="muted small">Splunk, Elastic/ELK, Microsoft Sentinel, detection content, use cases, dashboards, continuous monitoring, SPL, KQL, CrowdStrike, SentinelOne, EDR telemetry, alert triage</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title">Incident Response &amp; DFIR</div>
+          <div class="muted small">incident response support, triage, forensic analysis, Windows security, evidence collection, containment &amp; remediation, DFIR, YARA, network forensics, packet capture, Wireshark, Tcpdump, containment &amp; eradication</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title">Cloud &amp; Platform Security</div>
+          <div class="muted small">cloud threat detection, AWS concepts, Azure concepts, GCP concepts, monitoring &amp; visibility, cloud identity telemetry, hybrid environments</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GRC / Compliance</div>
+          <div class="muted small">NIST, RMF, controls, audit readiness, risk management, policy &amp; procedures, eMASS, ATO support, ISSM/ISSO concepts, DISA CCRI</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title">Secure Communications</div>
+          <div class="muted small">COMSEC, KMI, LCMS, keying material accountability, inventory, physical security, inspections</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title">Leadership</div>
+          <div class="muted small">team leadership, training, mentorship, stakeholder engagement, program management, executive briefings</div>
+        </div>
+      
+    </details>
+    
+
+    
+    <details class="section section-details">
+      <summary class="section__title" data-i18n="section.certifications">Certifications</summary>
+      
+        <div class="item">
+          <div class="item__title">GIAC Defending Advanced Threats (GDAT)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2024-04-28
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates advanced understanding of how sophisticated adversaries operate (APT models and methods) and how to strengthen prevention, detection, and response across the attack lifecycle. Emphasizes purple-team thinking: offensive tradecraft awareness combined with defensive control validation and threat-hunting techniques.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Advanced threat (APT) models &amp; methods</span><span class="chip">Adversary emulation</span><span class="chip">MITRE ATT&amp;CK mapping</span><span class="chip">Kill chain / attack lifecycle analysis</span><span class="chip">Threat hunting</span><span class="chip">Detection engineering concepts</span><span class="chip">Incident response</span><span class="chip">Cyber deception concepts</span><span class="chip">Control validation &amp; hardening</span><span class="chip">Post-exploitation detection</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Open Source Intelligence (GOSI)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2024-02-16
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates the ability to collect, analyze, and operationalize open-source intelligence (OSINT) in support of investigations, threat intelligence, and security operations. Focuses on repeatable collection methods, pivoting, validation, and reporting.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">OSINT collection &amp; analysis</span><span class="chip">Web research &amp; pivoting</span><span class="chip">Social media intelligence</span><span class="chip">Domain/IP/WHOIS research</span><span class="chip">Metadata analysis</span><span class="chip">Link analysis &amp; attribution support</span><span class="chip">Data validation &amp; source evaluation</span><span class="chip">Investigation reporting</span><span class="chip">Operational security (research OPSEC)</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Cloud Threat Detection (GCTD)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2023-11-13
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates the ability to detect and respond to threats in public cloud environments by leveraging cloud-native logging, identity signals, and telemetry. Emphasizes detection use cases, alert triage, and investigation of cloud-centric attack techniques.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Cloud threat detection</span><span class="chip">Cloud logging &amp; telemetry</span><span class="chip">IAM / identity signal analysis</span><span class="chip">Cloud incident response</span><span class="chip">Detection use-case development</span><span class="chip">CloudTrail / audit-log analysis</span><span class="chip">Threat hunting in cloud</span><span class="chip">Misconfiguration &amp; exposure detection</span><span class="chip">Security monitoring</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Certified Web Application Defender (GWEB)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2023-07-23
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates skills required to defend web applications by understanding common web vulnerabilities, secure design principles, defensive controls, and monitoring strategies. Focuses on preventing, detecting, and mitigating application-layer attacks.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Web application security</span><span class="chip">OWASP Top 10</span><span class="chip">Authentication &amp; session security</span><span class="chip">Input validation &amp; output encoding</span><span class="chip">Secure SDLC fundamentals</span><span class="chip">WAF concepts &amp; tuning</span><span class="chip">Application logging &amp; monitoring</span><span class="chip">Secure configuration</span><span class="chip">Vulnerability remediation</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Security Operations Certified (GSOC)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2023-06-18
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates competence in modern security operations workflows, including monitoring, triage, escalation, and coordination of incident response and vulnerability management activities. Emphasizes operational rigor and measurable SOC practices.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">SOC operations</span><span class="chip">Alert triage &amp; escalation</span><span class="chip">Security monitoring</span><span class="chip">Incident response coordination</span><span class="chip">Use-case &amp; playbook development</span><span class="chip">Operational metrics &amp; reporting</span><span class="chip">Vulnerability management workflows</span><span class="chip">Continuous improvement / tuning</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Assessing and Auditing Wireless Networks (GAWN)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2022-05-23
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates the ability to assess and audit 802.11 wireless networks, identify configuration weaknesses, and evaluate the security posture of wireless environments using offensive and defensive techniques.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Wireless security (802.11)</span><span class="chip">Wireless auditing &amp; assessment</span><span class="chip">WPA/WPA2/WPA3 concepts</span><span class="chip">Rogue AP detection</span><span class="chip">Wireless packet capture &amp; analysis</span><span class="chip">RF threat awareness</span><span class="chip">Secure wireless configuration</span><span class="chip">Penetration testing (wireless)</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Defensible Security Architect (GDSA)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2022-03-14
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates the ability to design and evolve defensible security architectures using threat modeling and practical security design patterns. Emphasizes building layered defenses, visibility, and resilience aligned to business requirements.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Security architecture</span><span class="chip">Threat modeling</span><span class="chip">Defense-in-depth design</span><span class="chip">Network segmentation</span><span class="chip">Secure design patterns</span><span class="chip">Logging &amp; visibility architecture</span><span class="chip">Zero trust concepts</span><span class="chip">Security control selection</span><span class="chip">Risk-informed decision making</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Web Application Penetration Tester (GWAPT)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2021-08-06
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates the ability to perform penetration testing of web applications, including discovery of common vulnerabilities, exploitation concepts, and reporting of actionable remediation guidance.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Web application penetration testing</span><span class="chip">OWASP testing methodology</span><span class="chip">Authentication/authorization testing</span><span class="chip">Input validation testing</span><span class="chip">Session management testing</span><span class="chip">Exploitation concepts</span><span class="chip">Testing documentation &amp; reporting</span><span class="chip">Remediation guidance</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Certified Project Manager (GCPM)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2021-01-01
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates practical project management skills for cybersecurity and IT initiatives, including planning, risk management, scheduling, communication, and delivery of measurable outcomes.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Project management</span><span class="chip">Scope / schedule / cost management</span><span class="chip">Risk &amp; issue management</span><span class="chip">Stakeholder communication</span><span class="chip">Requirements management</span><span class="chip">Project governance</span><span class="chip">Documentation &amp; reporting</span><span class="chip">Execution &amp; delivery</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Certified Windows Security Administrator (GCWN)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2019-12-04
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates the ability to secure Windows environments through hardening, configuration, monitoring, and response practices across endpoints and servers.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Windows security administration</span><span class="chip">Hardening &amp; baselining</span><span class="chip">Active Directory security</span><span class="chip">Endpoint security concepts</span><span class="chip">Logging &amp; monitoring on Windows</span><span class="chip">Privilege management concepts</span><span class="chip">Vulnerability mitigation</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Security Leadership (GSLC)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2019-08-09
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates leadership-focused cybersecurity knowledge, emphasizing governance, risk, communication, and translating security requirements into operational and strategic outcomes.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Security leadership</span><span class="chip">Governance, risk, and compliance (GRC)</span><span class="chip">Policy &amp; standards</span><span class="chip">Security program management</span><span class="chip">Risk communication</span><span class="chip">Stakeholder management</span><span class="chip">Strategic planning</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Certified Forensic Analyst (GCFA)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2019-01-10
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates advanced incident response and digital forensics skills, including evidence collection, timeline creation, and analysis of attacker activity to support containment, eradication, and lessons learned.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Incident response</span><span class="chip">Digital forensics</span><span class="chip">Evidence handling</span><span class="chip">Timeline analysis</span><span class="chip">Endpoint artifact analysis</span><span class="chip">Log analysis</span><span class="chip">Case reporting</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Continuous Monitoring (GMON)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2018-05-29
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates the ability to implement and operate continuous monitoring and security operations practices, including log management, alerting, detection logic, and operational response workflows.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Continuous monitoring</span><span class="chip">Security operations</span><span class="chip">Log management</span><span class="chip">SIEM concepts</span><span class="chip">Detection use cases</span><span class="chip">Alert tuning</span><span class="chip">Operational response workflows</span><span class="chip">Security metrics</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Cyber Threat Intelligence (GCTI)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2018-05-16
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates the ability to produce and operationalize cyber threat intelligence, including collection, analysis, production, and dissemination aligned to stakeholder needs and decision-making.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Cyber threat intelligence</span><span class="chip">Intelligence lifecycle</span><span class="chip">Collection management</span><span class="chip">Analytic tradecraft</span><span class="chip">Indicator evaluation</span><span class="chip">Reporting &amp; briefing</span><span class="chip">Stakeholder requirements</span><span class="chip">Intelligence-driven defense</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Critical Controls (GCCC)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2018-04-27
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates the ability to implement and audit the CIS Critical Security Controls, focusing on practical, prioritized security measures and governance of control effectiveness.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">CIS Critical Security Controls</span><span class="chip">Security control implementation</span><span class="chip">Control auditing</span><span class="chip">Security measurement</span><span class="chip">Prioritization &amp; roadmap planning</span><span class="chip">Program governance</span><span class="chip">Risk reduction planning</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Certified Forensic Examiner (GCFE)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2017-07-18
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates foundational digital forensics skills for examining systems, acquiring evidence, and performing structured analysis to support investigations and incident response.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Digital forensics fundamentals</span><span class="chip">Evidence acquisition</span><span class="chip">Windows artifact analysis</span><span class="chip">File system analysis</span><span class="chip">Chain of custody concepts</span><span class="chip">Reporting</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Systems and Network Auditor (GSNA)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2017-07-06
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates the ability to assess and audit systems and networks, focusing on control verification, configuration review, and identification of weaknesses and risk exposures.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Security auditing</span><span class="chip">Control verification</span><span class="chip">Configuration review</span><span class="chip">Risk assessment</span><span class="chip">Network security assessment</span><span class="chip">Audit reporting</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Penetration Tester (GPEN)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2017-06-17
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates penetration testing skills across planning, reconnaissance, exploitation concepts, and reporting. Focuses on ethically identifying security weaknesses and communicating risk and remediation.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Penetration testing methodology</span><span class="chip">Reconnaissance &amp; enumeration</span><span class="chip">Exploitation concepts</span><span class="chip">Privilege escalation concepts</span><span class="chip">Reporting &amp; remediation guidance</span><span class="chip">Risk communication</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Certified Intrusion Analyst (GCIA)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2017-04-10
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates network intrusion analysis skills, emphasizing packet-level investigation, IDS/NSM concepts, and structured detection and analysis of malicious activity.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Network intrusion analysis</span><span class="chip">Packet analysis</span><span class="chip">IDS/NSM concepts</span><span class="chip">Traffic baselining</span><span class="chip">Protocol analysis</span><span class="chip">Detection &amp; investigation</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Certified Incident Handler (GCIH)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2017-03-23
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates practical incident handling capability to detect, respond, and resolve security incidents. Emphasizes common attack techniques, vectors, tools, and defensive countermeasures.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Incident response</span><span class="chip">Attack techniques &amp; vectors</span><span class="chip">Triage &amp; containment</span><span class="chip">Eradication &amp; recovery</span><span class="chip">Threat detection</span><span class="chip">IR documentation &amp; reporting</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Python Coder (GPYC)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2017-03-14
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates the ability to write and reason about Python code for automation and security use cases, including data handling, scripting patterns, and practical programming fundamentals.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Python scripting</span><span class="chip">Automation</span><span class="chip">Data parsing &amp; manipulation</span><span class="chip">APIs &amp; integrations (concepts)</span><span class="chip">Debugging &amp; testing concepts</span><span class="chip">Secure coding fundamentals</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Certified Enterprise Defender (GCED)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2017-02-17
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates enterprise defensive skills spanning hardening, monitoring, and response across common operating systems and network environments.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Enterprise defense</span><span class="chip">System hardening</span><span class="chip">Detection &amp; monitoring</span><span class="chip">Incident response</span><span class="chip">Windows/Linux security concepts</span><span class="chip">Network security</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">GIAC Security Essentials (GSEC)</div>
+          <div class="item__meta">
+            GIAC
+             • Issued: 2017-01-20
+             • Expires: 2028-04-30
+             • Status: active
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates broad, hands-on information security knowledge beyond terminology, spanning core security concepts, networking, and practical defensive skills used in IT and security roles.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Security fundamentals</span><span class="chip">Networking fundamentals</span><span class="chip">Access control concepts</span><span class="chip">Cryptography fundamentals</span><span class="chip">Incident response basics</span><span class="chip">Security policy basics</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">SUSE Certified Linux Administrator (SUSE Linux Enterprise Server 11)</div>
+          <div class="item__meta">
+            SUSE
+             • Issued: 2016-05-04
+            
+             • Status: completed
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates administration of SUSE Linux Enterprise Server, including installation/configuration, user and service management, and operational troubleshooting.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Linux administration (SUSE)</span><span class="chip">User &amp; group management</span><span class="chip">Service management</span><span class="chip">System configuration</span><span class="chip">CLI proficiency</span><span class="chip">Troubleshooting</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">CompTIA Linux+ Powered by LPI (and LPIC-1)</div>
+          <div class="item__meta">
+            CompTIA/LPI
+             • Issued: 2016-05-03
+            
+             • Status: completed
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates foundational Linux administration across distributions, including command-line usage, file systems, networking basics, users/permissions, and troubleshooting.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Linux administration</span><span class="chip">Command-line operations</span><span class="chip">File system management</span><span class="chip">Permissions &amp; ownership</span><span class="chip">Networking basics</span><span class="chip">Process management</span><span class="chip">Troubleshooting</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">EC-Council Certified Digital Marketer</div>
+          <div class="item__meta">
+            EC-Council
+             • Issued: 2016-03-14
+            
+             • Status: issued
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates knowledge of digital marketing fundamentals, including online strategy, content, SEO/SEM concepts, analytics basics, and campaign planning.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Digital marketing fundamentals</span><span class="chip">Campaign planning</span><span class="chip">SEO/SEM concepts</span><span class="chip">Content strategy</span><span class="chip">Web analytics basics</span><span class="chip">Audience targeting concepts</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">EC-Council Certified Ethical Hacker (CEH)</div>
+          <div class="item__meta">
+            EC-Council
+             • Issued: 2015-09-22
+            
+             • Status: issued
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates knowledge of ethical hacking concepts, common attack techniques, and foundational penetration testing methodology used to identify and remediate vulnerabilities.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Ethical hacking concepts</span><span class="chip">Penetration testing methodology</span><span class="chip">Reconnaissance &amp; enumeration</span><span class="chip">Vulnerability assessment</span><span class="chip">Exploitation concepts</span><span class="chip">Reporting &amp; remediation guidance</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">EC-Council Certified Network Defense Architect (CNDA)</div>
+          <div class="item__meta">
+            EC-Council
+             • Issued: 2015-09-22
+            
+             • Status: issued
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates defensive network security architecture concepts, including layered defense, secure network design, monitoring, and resilience planning.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Network security architecture</span><span class="chip">Defense-in-depth</span><span class="chip">Network monitoring concepts</span><span class="chip">Perimeter security concepts</span><span class="chip">Security controls design</span><span class="chip">Risk-informed design decisions</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">Cisco Certified Academy Instructor (CCAI)</div>
+          <div class="item__meta">
+            Cisco
+            
+            
+             • Status: qualified
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates capability to instruct Cisco Networking Academy curricula, including facilitation, lab delivery, and learner support aligned to Cisco Academy standards.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Technical instruction</span><span class="chip">Curriculum delivery</span><span class="chip">Lab facilitation</span><span class="chip">Student coaching</span><span class="chip">Networking fundamentals instruction</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">Cisco Certified Network Associate (CCNA)</div>
+          <div class="item__meta">
+            Cisco
+            
+             • Expires: 2014-04-02
+             • Status: expired (historical)
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates foundational Cisco networking skills including routing/switching concepts, IP addressing, network troubleshooting, and core network services fundamentals.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Routing &amp; switching fundamentals</span><span class="chip">IP addressing &amp; subnetting</span><span class="chip">Network troubleshooting</span><span class="chip">Cisco IOS fundamentals</span><span class="chip">VLANs &amp; switching concepts</span><span class="chip">WAN concepts</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">SANS Security Awareness Professional (SSAP)</div>
+          <div class="item__meta">
+            SANS
+            
+            
+             • Status: issued (date not listed in source docs)
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates foundational capability to build and run an effective security awareness program, including behavior change concepts, program execution, and measurement.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Security awareness program design</span><span class="chip">Training development</span><span class="chip">Phishing awareness concepts</span><span class="chip">Security communications</span><span class="chip">Metrics &amp; reporting</span><span class="chip">Behavior change concepts</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">XM-Cyber Exposure Management Certification</div>
+          <div class="item__meta">
+            XM Cyber
+            
+            
+             • Status: issued (date not listed in source docs)
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Demonstrates understanding of exposure management concepts, including attack path modeling, control validation, and risk-based remediation prioritization to reduce overall exposure.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Exposure management</span><span class="chip">Attack path analysis</span><span class="chip">Security control validation</span><span class="chip">Risk-based prioritization</span><span class="chip">Vulnerability remediation planning</span><span class="chip">Continuous exposure reduction</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">CompTIA Security+ (CE)</div>
+          <div class="item__meta">
+            CompTIA
+             • Issued: 2015-12-28
+            
+             • Status: recognized
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates baseline cybersecurity knowledge (threats, attacks, controls, cryptography, identity/access, and risk management) commonly aligned to DoD workforce requirements.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Security fundamentals</span><span class="chip">Threats &amp; vulnerabilities</span><span class="chip">Access control concepts</span><span class="chip">Cryptography basics</span><span class="chip">Risk fundamentals</span><span class="chip">Security operations basics</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">CompTIA Network+ (CE)</div>
+          <div class="item__meta">
+            CompTIA
+             • Issued: 2015-12-28
+            
+             • Status: recognized
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates foundational networking knowledge including TCP/IP, network operations, troubleshooting, and common network security concepts.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Networking fundamentals</span><span class="chip">TCP/IP fundamentals</span><span class="chip">Routing &amp; switching basics</span><span class="chip">Network troubleshooting</span><span class="chip">Network operations</span><span class="chip">Network security concepts</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">CompTIA Security+ (historical)</div>
+          <div class="item__meta">
+            CompTIA
+             • Issued: 2007
+            
+             • Status: historical
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Historical attainment of CompTIA Security+ demonstrating early baseline cybersecurity knowledge (pre-CE/renewal era).</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Security fundamentals</span><span class="chip">Threat awareness</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">CompTIA Network+ (historical)</div>
+          <div class="item__meta">
+            CompTIA
+             • Issued: 2007
+            
+             • Status: historical
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Historical attainment of CompTIA Network+ demonstrating early baseline networking knowledge (pre-CE/renewal era).</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Networking fundamentals</span><span class="chip">Network troubleshooting</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">LPI LPIC-1 (Linux Professional Institute Certification)</div>
+          <div class="item__meta">
+            Linux Professional Institute (LPI)
+             • Issued: 2016-05-03
+            
+             • Status: completed
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Validates ability to perform maintenance tasks on the command line, install and configure a Linux computer, and configure basic networking.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Linux administration</span><span class="chip">Command-line operations</span><span class="chip">System configuration</span><span class="chip">Users/permissions</span><span class="chip">Networking basics</span><span class="chip">Troubleshooting</span>
+            </div>
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title">Certified Authorization Professional (CAP)</div>
+          <div class="item__meta">
+            (ISC)²
+            
+            
+             • Status: self-reported
+            
+          </div>
+          
+          
+            <div class="cert-desc" style="margin-top:8px">
+              <div class="muted small" style="margin-bottom:4px">Overview</div>
+              <div>Credential focused on authorization and governance of information systems—risk management, control selection/assessment, and maintaining authorization packages (SSP, POA&amp;M) for compliance-driven environments.</div>
+            </div>
+          
+          
+            <div class="cert-skills" style="margin-top:10px">
+              <div class="muted small" style="margin-bottom:4px">Skills associated with this certification</div>
+              <span class="chip">Risk Management Framework (RMF)</span><span class="chip">Security authorization (ATO)</span><span class="chip">System Security Plan (SSP)</span><span class="chip">Plan of Action &amp; Milestones (POA&amp;M)</span><span class="chip">NIST SP 800-53 controls</span><span class="chip">Security assessment &amp; authorization (A&amp;A)</span><span class="chip">eMASS workflows</span><span class="chip">Continuous monitoring governance</span>
+            </div>
+          
+        </div>
+      
+    </details>
+    
+
+    
+    <details class="section section-details">
+      <summary class="section__title" data-i18n="section.training">Training</summary>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta"> • 2022-09 to 2022-09 • 40 hrs</div>
+          
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta"> • 2020-05 to 2020-07 • 342 hrs</div>
+          
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta"> • 2020-01 to 2020-01</div>
+          
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta"> • 2019-10 to 2019-11 • 160 hrs</div>
+          
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta"> • 2019-08 to 2019-08 • 120 hrs</div>
+          
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta"> • 2019-03 to 2019-03 • 40 hrs</div>
+          
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta"> • 2018-04 to 2018-06 • 352 hrs</div>
+          
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta"> • 2017-01 to 2017-04 • 528 hrs</div>
+          
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta"> • 2016-11 to 2016-12 • 70 hrs</div>
+          
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta"> • 2017-10 to 2017-10 • 80 hrs</div>
+          
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta"> • 2016-08 to 2016-09 • 366 hrs</div>
+          
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta"> • 2012-08 to 2012-09 • 203 hrs</div>
+          
+          
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta"> • 2016-03-18</div>
+          
+          
+        </div>
+      
+    </details>
+    
+
+    
+    <details class="section section-details">
+      <summary class="section__title" data-i18n="section.awards_recognition">Awards &amp; Recognition</summary>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta">2019-08-30</div>
+          <div class="award-desc" style="margin-top:8px">Named Honor Graduate for top academic/performance standing in the course cohort; reflects mastery of AEHF SATCOM mission planning and rapid application to unit readiness improvements.</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta">2011-10-19</div>
+          <div class="award-desc" style="margin-top:8px">Honor Graduate recognition awarded to a top-performing student in an NCO professional military education course focused on advanced IT operations and leadership.</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta">2018-05-11</div>
+          <div class="award-desc" style="margin-top:8px">Certificate of appreciation recognizing meaningful contributions/support to an Army NCO Academy mission (e.g., instruction, mentorship, or operational support).</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta">2019-11-22</div>
+          <div class="award-desc" style="margin-top:8px">Top-box potential rating used in the Army’s NCO Evaluation Report system. Indicates the Senior Rater assessed performance/potential as among the very best compared to peers in the grade.</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta">2020-09-24</div>
+          <div class="award-desc" style="margin-top:8px">High potential rating used in the Army’s NCO Evaluation Report system. Indicates strong performance and potential relative to peers.</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta">2020</div>
+          <div class="award-desc" style="margin-top:8px">Selection to represent/advise on Communications Security (COMSEC) matters at an Army-wide level based on technical expertise and credibility.</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta"></div>
+          <div class="award-desc" style="margin-top:8px">Latin honors designation reflecting exceptional academic achievement for an undergraduate degree program.</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title"></div>
+          <div class="item__meta"></div>
+          <div class="award-desc" style="margin-top:8px">Selected to serve on the GIAC Advisory Board—typically indicates recognized expertise and contribution to the GIAC/SANS certification community (e.g., feedback on certification/program direction).</div>
+        </div>
+      
+    </details>
+    
+
+    
+    <details class="section section-details">
+      <summary class="section__title" data-i18n="section.publications">Publications</summary>
+      
+        <div class="item">
+          <div class="item__title">Automating RMF Steps Using Lightweight Scripts and Tools</div>
+          <div class="item__meta">SANS • 2022-10-14</div>
+          <div class="muted small" style="margin-top:4px"><a href="https://www.sans.org/white-papers/automating-rmf-steps-using-lightweight-scripts-and-tools/">https://www.sans.org/white-papers/automating-rmf-steps-using-lightweight-scripts-and-tools/</a></div>
+          
+        </div>
+      
+    </details>
+    
+
+    <details class="section section-details">
+      <summary class="section__title" data-i18n="section.education">Education</summary>
+      
+        <div class="item">
+          <div class="item__title">SANS Technology Institute</div>
+          <div class="item__meta">Master of Science • Information Security Engineering • 2019-12-01 – 2022-10-10</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title">SANS Technology Institute</div>
+          <div class="item__meta">Graduate Certificate • Purple Team Operations • 2023-03-01 – 2024-04-28</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title">University of Maryland Global Campus (UMGC)</div>
+          <div class="item__meta">Graduate Coursework • Cybersecurity • 2016-01 – 2016-05</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title">University of Maryland Global Campus (UMGC)</div>
+          <div class="item__meta">Bachelor of Science • Computer and Information Science; Digital Media and Web Technology (Double Major) • 2013 – 2015-12-30</div>
+        </div>
+      
+        <div class="item">
+          <div class="item__title">University of Maryland Global Campus (UMGC)</div>
+          <div class="item__meta">Associate of Arts • General Studies – Computer Studies Curriculum • 2013 – 2015-12-30</div>
+        </div>
+      
+    </details>
+  </article>
+</main>
+
+
+  <footer class="doc-footer">
+    <div class="doc-footer__inner">
+      <div class="muted small">Generated from <span class="mono">data/resume_master.yaml</span> • Template: <span class="mono">federal</span> • Theme: <span class="mono">sand</span></div>
+    </div>
+  </footer>
+
+  <script>
+  // Lightweight i18n (aligned with fryonline.net)
+  const I18N = {"en": {"ui.resume_viewer": "Resume Viewer", "ui.pick_layout_theme": "Pick a layout + theme. Print inside the resume page for a styled PDF.", "ui.language": "Language", "ui.template": "Template", "ui.theme": "Theme", "ui.open_new_tab": "Open in new tab", "ui.more_controls": "More controls", "ui.panel_hint": "Details • Sections • Tools", "ui.details": "Details", "ui.academic_record": "Academic record", "ui.course_descriptions": "Course descriptions", "ui.course_skills": "Course skills", "ui.cert_descriptions": "Certification descriptions", "ui.cert_skills": "Certification skills", "ui.training_explanations": "Training explanations", "ui.training_skills": "Training skills", "ui.job_explanations": "Job explanations", "ui.award_explanations": "Award explanations", "ui.transcript_appendices": "Transcript appendices", "ui.controls_above_resume_note": "(Controls live above the resume.)", "ui.translation_incomplete": "Some text could not be translated.", "ui.retry": "Retry", "ui.sections": "Sections", "ui.expand_all": "Expand all", "ui.collapse_all": "Collapse all", "ui.section_click_hint": "(You can also click any section heading inside the resume.)", "ui.attachments": "Attachments", "ui.tools": "Tools", "ui.business_cards": "Business cards", "ui.download_vcard": "Download vCard", "ui.not_included_build": "(Not included in this build)", "ui.only_public_attachments": "(Only public attachments included; private docs hidden)", "ui.no_attachments_found": "(No attachments found)", "ui.unlock_label": "Unlock:", "ui.passphrase": "Passphrase", "ui.unlock_button": "Unlock", "ui.enter_passphrase": "Enter a passphrase.", "ui.incorrect": "Incorrect.", "ui.unlock_failed": "Unlock failed.", "ui.business_cards_title": "Business Cards", "ui.choose_design_theme": "Choose a design + theme. Print from the card page for exact 3.5×2\" sizing.", "ui.back_to_resume_viewer": "← Back to resume viewer", "ui.print_sheet": "Print 10-up sheet", "ui.design": "Design", "nav.skip_to_content": "Skip to content", "label.website": "Website", "label.responsibilities": "Responsibilities", "label.deliverables": "Deliverables", "section.summary": "Summary", "section.core_competencies": "Core Competencies", "section.experience": "Experience", "section.education": "Education", "section.certifications": "Certifications", "section.certifications_detailed": "Certifications (Detailed)", "section.publication": "Publication", "section.publications": "Publications", "section.selected_training": "Selected Training", "section.training": "Training", "section.training_military_detailed": "Training and Military Education (Detailed)", "section.awards_recognition": "Awards & Recognition", "section.awards": "Awards", "section.projects": "Projects", "section.links": "Links", "section.skills": "Skills", "section.core": "Core", "section.education_summary": "Education (Summary)", "section.academic_record_detailed": "Academic Record (Detailed)", "section.military_service_record": "Military Service Record", "template.ats": "ATS", "template.modern": "Modern", "template.sidebar": "Sidebar", "template.compact": "Compact", "template.dossier": "Dossier", "template.timeline": "Timeline", "template.executive": "Executive", "template.federal": "Federal (USAJobs)", "template.academia": "Academia", "theme.light": "Light", "theme.slate": "Slate", "theme.dark": "Dark", "theme.army": "Army", "theme.navy": "Navy", "theme.midnight": "Midnight", "theme.sand": "Sand", "theme.plum": "Plum", "theme.terminal": "Terminal", "theme.cobalt": "Cobalt", "theme.graphite": "Graphite", "theme.emerald": "Emerald", "theme.ruby": "Ruby", "theme.sunset": "Sunset", "theme.paper": "Paper", "theme.forest": "Forest", "theme.copper": "Copper", "theme.ice": "Ice", "design.classic": "Classic", "design.split": "Split", "design.minimal": "Minimal", "design.band": "Band", "design.terminal": "Terminal", "design.centered": "Centered", "ui.qr_alt": "QR code (vCard)", "ui.business_card_sheet_title": "Business Card Sheet"}, "es": {"ui.resume_viewer": "Visor de currículum", "ui.pick_layout_theme": "Elige un diseño y un tema. Imprime desde la página del currículum para generar un PDF con estilo.", "ui.language": "Idioma", "ui.template": "Plantilla", "ui.theme": "Tema", "ui.open_new_tab": "Abrir en una nueva pestaña", "ui.more_controls": "Más controles", "ui.panel_hint": "Detalles • Secciones • Herramientas", "ui.details": "Detalles", "ui.academic_record": "Historial académico", "ui.course_descriptions": "Descripciones de cursos", "ui.course_skills": "Habilidades de cursos", "ui.cert_descriptions": "Descripciones de certificaciones", "ui.cert_skills": "Habilidades de certificaciones", "ui.training_explanations": "Explicaciones de formación", "ui.training_skills": "Habilidades de formación", "ui.job_explanations": "Explicaciones de puestos", "ui.award_explanations": "Explicaciones de premios", "ui.transcript_appendices": "Apéndices de expedientes", "ui.controls_above_resume_note": "(Los controles están arriba del currículum.)", "ui.translation_incomplete": "No se pudo traducir parte del texto.", "ui.retry": "Reintentar", "ui.sections": "Secciones", "ui.expand_all": "Expandir todo", "ui.collapse_all": "Contraer todo", "ui.section_click_hint": "(También puedes hacer clic en cualquier encabezado de sección dentro del currículum.)", "ui.attachments": "Adjuntos", "ui.tools": "Herramientas", "ui.business_cards": "Tarjetas de presentación", "ui.download_vcard": "Descargar vCard", "ui.not_included_build": "(No incluido en esta versión)", "ui.only_public_attachments": "(Solo se incluyen adjuntos públicos; los documentos privados están ocultos)", "ui.no_attachments_found": "(No se encontraron adjuntos)", "ui.unlock_label": "Desbloquear:", "ui.passphrase": "Frase de contraseña", "ui.unlock_button": "Desbloquear", "ui.enter_passphrase": "Ingresa una frase de contraseña.", "ui.incorrect": "Incorrecto.", "ui.unlock_failed": "Falló el desbloqueo.", "ui.business_cards_title": "Tarjetas de presentación", "ui.choose_design_theme": "Elige un diseño y un tema. Imprime desde la página de la tarjeta para un tamaño exacto de 3,5×2\".", "ui.back_to_resume_viewer": "← Volver al visor de currículum", "ui.print_sheet": "Imprimir hoja (10)", "ui.design": "Diseño", "nav.skip_to_content": "Saltar al contenido", "label.website": "Sitio web", "label.responsibilities": "Responsabilidades", "label.deliverables": "Entregables", "section.summary": "Resumen", "section.core_competencies": "Competencias principales", "section.experience": "Experiencia", "section.education": "Educación", "section.certifications": "Certificaciones", "section.certifications_detailed": "Certificaciones (detallado)", "section.publication": "Publicación", "section.publications": "Publicaciones", "section.selected_training": "Formación seleccionada", "section.training": "Formación", "section.training_military_detailed": "Formación y educación militar (detallado)", "section.awards_recognition": "Premios y reconocimientos", "section.awards": "Premios", "section.projects": "Proyectos", "section.links": "Enlaces", "section.skills": "Habilidades", "section.core": "Núcleo", "section.education_summary": "Educación (resumen)", "section.academic_record_detailed": "Historial académico (detallado)", "section.military_service_record": "Registro de servicio militar", "template.ats": "ATS", "template.modern": "Moderno", "template.sidebar": "Barra lateral", "template.compact": "Compacto", "template.dossier": "Expediente", "template.timeline": "Cronología", "template.executive": "Ejecutivo", "template.federal": "Federal (USAJobs)", "template.academia": "Académico", "theme.light": "Claro", "theme.slate": "Pizarra", "theme.dark": "Oscuro", "theme.army": "Ejército", "theme.navy": "Armada", "theme.midnight": "Medianoche", "theme.sand": "Arena", "theme.plum": "Ciruela", "theme.terminal": "Terminal", "theme.cobalt": "Cobalto", "theme.graphite": "Grafito", "theme.emerald": "Esmeralda", "theme.ruby": "Rubí", "theme.sunset": "Atardecer", "theme.paper": "Papel", "theme.forest": "Bosque", "theme.copper": "Cobre", "theme.ice": "Hielo", "design.classic": "Clásico", "design.split": "Dividido", "design.minimal": "Minimal", "design.band": "Banda", "design.terminal": "Terminal", "design.centered": "Centrado", "ui.qr_alt": "Código QR (vCard)", "ui.business_card_sheet_title": "Hoja de tarjetas de presentación"}, "de": {"ui.resume_viewer": "Lebenslauf‑Viewer", "ui.pick_layout_theme": "Wähle Layout und Theme. Drucke innerhalb der Lebenslaufseite, um ein formatiertes PDF zu erzeugen.", "ui.language": "Sprache", "ui.template": "Vorlage", "ui.theme": "Theme", "ui.open_new_tab": "In neuem Tab öffnen", "ui.more_controls": "Weitere Optionen", "ui.panel_hint": "Details • Abschnitte • Tools", "ui.details": "Details", "ui.academic_record": "Akademischer Nachweis", "ui.course_descriptions": "Kursbeschreibungen", "ui.course_skills": "Kurskompetenzen", "ui.cert_descriptions": "Zertifikatsbeschreibungen", "ui.cert_skills": "Zertifikatskompetenzen", "ui.training_explanations": "Schulungserläuterungen", "ui.training_skills": "Schulungskompetenzen", "ui.job_explanations": "Tätigkeitsbeschreibungen", "ui.award_explanations": "Auszeichnungserklärungen", "ui.transcript_appendices": "Transcript‑Anhänge", "ui.controls_above_resume_note": "(Die Steuerelemente befinden sich oberhalb des Lebenslaufs.)", "ui.translation_incomplete": "Einige Texte konnten nicht übersetzt werden.", "ui.retry": "Erneut versuchen", "ui.sections": "Abschnitte", "ui.expand_all": "Alle ausklappen", "ui.collapse_all": "Alle einklappen", "ui.section_click_hint": "(Du kannst auch auf eine Abschnittsüberschrift im Lebenslauf klicken.)", "ui.attachments": "Anhänge", "ui.tools": "Tools", "ui.business_cards": "Visitenkarten", "ui.download_vcard": "vCard herunterladen", "ui.not_included_build": "(In dieser Version nicht enthalten)", "ui.only_public_attachments": "(Nur öffentliche Anhänge enthalten; private Dokumente verborgen)", "ui.no_attachments_found": "(Keine Anhänge gefunden)", "ui.unlock_label": "Entsperren:", "ui.passphrase": "Passphrase", "ui.unlock_button": "Entsperren", "ui.enter_passphrase": "Passphrase eingeben.", "ui.incorrect": "Falsch.", "ui.unlock_failed": "Entsperren fehlgeschlagen.", "ui.business_cards_title": "Visitenkarten", "ui.choose_design_theme": "Wähle Design und Theme. Drucke von der Kartenseite für exakte 3,5×2\"‑Größe.", "ui.back_to_resume_viewer": "← Zurück zum Lebenslauf‑Viewer", "ui.print_sheet": "10er‑Druckbogen", "ui.design": "Design", "nav.skip_to_content": "Zum Inhalt springen", "label.website": "Website", "label.responsibilities": "Verantwortlichkeiten", "label.deliverables": "Arbeitsergebnisse", "section.summary": "Zusammenfassung", "section.core_competencies": "Kernkompetenzen", "section.experience": "Berufserfahrung", "section.education": "Ausbildung", "section.certifications": "Zertifizierungen", "section.certifications_detailed": "Zertifizierungen (detailliert)", "section.publication": "Publikation", "section.publications": "Publikationen", "section.selected_training": "Ausgewählte Schulungen", "section.training": "Schulungen", "section.training_military_detailed": "Schulung und militärische Ausbildung (detailliert)", "section.awards_recognition": "Auszeichnungen & Anerkennung", "section.awards": "Auszeichnungen", "section.projects": "Projekte", "section.links": "Links", "section.skills": "Skills", "section.core": "Kern", "section.education_summary": "Ausbildung (Zusammenfassung)", "section.academic_record_detailed": "Akademischer Nachweis (detailliert)", "section.military_service_record": "Militärischer Dienstnachweis", "template.ats": "ATS", "template.modern": "Modern", "template.sidebar": "Seitenleiste", "template.compact": "Kompakt", "template.dossier": "Dossier", "template.timeline": "Zeitachse", "template.executive": "Executive", "template.federal": "Federal (USAJobs)", "template.academia": "Akademisch", "theme.light": "Hell", "theme.slate": "Schiefer", "theme.dark": "Dunkel", "theme.army": "Armee", "theme.navy": "Marine", "theme.midnight": "Mitternacht", "theme.sand": "Sand", "theme.plum": "Pflaume", "theme.terminal": "Terminal", "theme.cobalt": "Kobalt", "theme.graphite": "Graphit", "theme.emerald": "Smaragd", "theme.ruby": "Rubin", "theme.sunset": "Sonnenuntergang", "theme.paper": "Papier", "theme.forest": "Wald", "theme.copper": "Kupfer", "theme.ice": "Eis", "design.classic": "Klassisch", "design.split": "Geteilt", "design.minimal": "Minimal", "design.band": "Band", "design.terminal": "Terminal", "design.centered": "Zentriert", "ui.qr_alt": "QR‑Code (vCard)", "ui.business_card_sheet_title": "Visitenkartenbogen"}, "pl": {"ui.resume_viewer": "Podgląd CV", "ui.pick_layout_theme": "Wybierz układ i motyw. Drukuj z poziomu strony CV, aby uzyskać stylizowany PDF.", "ui.language": "Język", "ui.template": "Szablon", "ui.theme": "Motyw", "ui.open_new_tab": "Otwórz w nowej karcie", "ui.more_controls": "Więcej ustawień", "ui.panel_hint": "Szczegóły • Sekcje • Narzędzia", "ui.details": "Szczegóły", "ui.academic_record": "Rekord akademicki", "ui.course_descriptions": "Opisy kursów", "ui.course_skills": "Umiejętności z kursów", "ui.cert_descriptions": "Opisy certyfikatów", "ui.cert_skills": "Umiejętności certyfikacyjne", "ui.training_explanations": "Wyjaśnienia szkoleń", "ui.training_skills": "Umiejętności ze szkoleń", "ui.job_explanations": "Opisy stanowisk", "ui.award_explanations": "Wyjaśnienia nagród", "ui.transcript_appendices": "Załączniki do transkryptu", "ui.controls_above_resume_note": "(Sterowanie jest nad CV.)", "ui.translation_incomplete": "Nie udało się przetłumaczyć części tekstu.", "ui.retry": "Ponów", "ui.sections": "Sekcje", "ui.expand_all": "Rozwiń wszystkie", "ui.collapse_all": "Zwiń wszystkie", "ui.section_click_hint": "(Możesz też kliknąć nagłówek sekcji w CV.)", "ui.attachments": "Załączniki", "ui.tools": "Narzędzia", "ui.business_cards": "Wizytówki", "ui.download_vcard": "Pobierz vCard", "ui.not_included_build": "(Nie uwzględniono w tej wersji)", "ui.only_public_attachments": "(Tylko publiczne załączniki; prywatne dokumenty ukryte)", "ui.no_attachments_found": "(Brak załączników)", "ui.unlock_label": "Odblokuj:", "ui.passphrase": "Hasło", "ui.unlock_button": "Odblokuj", "ui.enter_passphrase": "Wpisz hasło.", "ui.incorrect": "Nieprawidłowe.", "ui.unlock_failed": "Nie udało się odblokować.", "ui.business_cards_title": "Wizytówki", "ui.choose_design_theme": "Wybierz projekt i motyw. Drukuj ze strony wizytówki w rozmiarze 3,5×2\".", "ui.back_to_resume_viewer": "← Wróć do podglądu CV", "ui.print_sheet": "Arkusz 10‑up", "ui.design": "Projekt", "nav.skip_to_content": "Przejdź do treści", "label.website": "Strona WWW", "label.responsibilities": "Obowiązki", "label.deliverables": "Rezultaty", "section.summary": "Podsumowanie", "section.core_competencies": "Kluczowe kompetencje", "section.experience": "Doświadczenie", "section.education": "Wykształcenie", "section.certifications": "Certyfikaty", "section.certifications_detailed": "Certyfikaty (szczegóły)", "section.publication": "Publikacja", "section.publications": "Publikacje", "section.selected_training": "Wybrane szkolenia", "section.training": "Szkolenia", "section.training_military_detailed": "Szkolenia i edukacja wojskowa (szczegóły)", "section.awards_recognition": "Nagrody i wyróżnienia", "section.awards": "Nagrody", "section.projects": "Projekty", "section.links": "Linki", "section.skills": "Umiejętności", "section.core": "Główne", "section.education_summary": "Wykształcenie (podsumowanie)", "section.academic_record_detailed": "Rekord akademicki (szczegóły)", "section.military_service_record": "Przebieg służby wojskowej", "template.ats": "ATS", "template.modern": "Nowoczesny", "template.sidebar": "Panel boczny", "template.compact": "Kompaktowy", "template.dossier": "Dossier", "template.timeline": "Oś czasu", "template.executive": "Executive", "template.federal": "Federal (USAJobs)", "template.academia": "Akademicki", "theme.light": "Jasny", "theme.slate": "Łupek", "theme.dark": "Ciemny", "theme.army": "Armia", "theme.navy": "Marynarka", "theme.midnight": "Północ", "theme.sand": "Piasek", "theme.plum": "Śliwka", "theme.terminal": "Terminal", "theme.cobalt": "Kobalt", "theme.graphite": "Grafit", "theme.emerald": "Szmaragd", "theme.ruby": "Rubin", "theme.sunset": "Zachód słońca", "theme.paper": "Papier", "theme.forest": "Las", "theme.copper": "Miedź", "theme.ice": "Lód", "design.classic": "Klasyczny", "design.split": "Podzielony", "design.minimal": "Minimal", "design.band": "Pasek", "design.terminal": "Terminal", "design.centered": "Wyśrodkowany", "ui.qr_alt": "Kod QR (vCard)", "ui.business_card_sheet_title": "Arkusz wizytówek"}, "ro": {"ui.resume_viewer": "Vizualizator CV", "ui.pick_layout_theme": "Alege un format și o temă. Printează din pagina CV‑ului pentru un PDF stilizat.", "ui.language": "Limbă", "ui.template": "Șablon", "ui.theme": "Temă", "ui.open_new_tab": "Deschide într-o filă nouă", "ui.more_controls": "Mai multe controale", "ui.panel_hint": "Detalii • Secțiuni • Instrumente", "ui.details": "Detalii", "ui.academic_record": "Istoric academic", "ui.course_descriptions": "Descrieri de curs", "ui.course_skills": "Competențe din cursuri", "ui.cert_descriptions": "Descrieri de certificări", "ui.cert_skills": "Competențe din certificări", "ui.training_explanations": "Explicații de instruire", "ui.training_skills": "Competențe din instruire", "ui.job_explanations": "Explicații despre joburi", "ui.award_explanations": "Explicații despre premii", "ui.transcript_appendices": "Anexe la transcript", "ui.controls_above_resume_note": "(Controalele sunt deasupra CV‑ului.)", "ui.translation_incomplete": "O parte din text nu a putut fi tradusă.", "ui.retry": "Reîncearcă", "ui.sections": "Secțiuni", "ui.expand_all": "Extinde tot", "ui.collapse_all": "Restrânge tot", "ui.section_click_hint": "(Poți face clic și pe titlul unei secțiuni din CV.)", "ui.attachments": "Atașamente", "ui.tools": "Instrumente", "ui.business_cards": "Cărți de vizită", "ui.download_vcard": "Descarcă vCard", "ui.not_included_build": "(Nu este inclus în această versiune)", "ui.only_public_attachments": "(Sunt incluse doar atașamente publice; documentele private sunt ascunse)", "ui.no_attachments_found": "(Nu s-au găsit atașamente)", "ui.unlock_label": "Deblochează:", "ui.passphrase": "Parolă", "ui.unlock_button": "Deblochează", "ui.enter_passphrase": "Introdu parola.", "ui.incorrect": "Incorect.", "ui.unlock_failed": "Deblocarea a eșuat.", "ui.business_cards_title": "Cărți de vizită", "ui.choose_design_theme": "Alege un design și o temă. Printează din pagina cărții de vizită pentru dimensiunea 3,5×2\".", "ui.back_to_resume_viewer": "← Înapoi la vizualizatorul CV", "ui.print_sheet": "Foaie 10‑up", "ui.design": "Design", "nav.skip_to_content": "Sari la conținut", "label.website": "Website", "label.responsibilities": "Responsabilități", "label.deliverables": "Livrabile", "section.summary": "Rezumat", "section.core_competencies": "Competențe de bază", "section.experience": "Experiență", "section.education": "Educație", "section.certifications": "Certificări", "section.certifications_detailed": "Certificări (detaliat)", "section.publication": "Publicație", "section.publications": "Publicații", "section.selected_training": "Instruire selectată", "section.training": "Instruire", "section.training_military_detailed": "Instruire și educație militară (detaliat)", "section.awards_recognition": "Premii și distincții", "section.awards": "Premii", "section.projects": "Proiecte", "section.links": "Linkuri", "section.skills": "Competențe", "section.core": "De bază", "section.education_summary": "Educație (rezumat)", "section.academic_record_detailed": "Istoric academic (detaliat)", "section.military_service_record": "Evidența serviciului militar", "template.ats": "ATS", "template.modern": "Modern", "template.sidebar": "Bară laterală", "template.compact": "Compact", "template.dossier": "Dosar", "template.timeline": "Cronologie", "template.executive": "Executiv", "template.federal": "Federal (USAJobs)", "template.academia": "Academic", "theme.light": "Deschis", "theme.slate": "Ardezie", "theme.dark": "Întunecat", "theme.army": "Armată", "theme.navy": "Marină", "theme.midnight": "Miezul nopții", "theme.sand": "Nisip", "theme.plum": "Prună", "theme.terminal": "Terminal", "theme.cobalt": "Cobalt", "theme.graphite": "Grafit", "theme.emerald": "Smarald", "theme.ruby": "Rubin", "theme.sunset": "Apus", "theme.paper": "Hârtie", "theme.forest": "Pădure", "theme.copper": "Cupru", "theme.ice": "Gheață", "design.classic": "Clasic", "design.split": "Împărțit", "design.minimal": "Minimal", "design.band": "Bandă", "design.terminal": "Terminal", "design.centered": "Centrat", "ui.qr_alt": "Cod QR (vCard)", "ui.business_card_sheet_title": "Foaie de cărți de vizită"}, "ru": {"ui.resume_viewer": "Просмотр резюме", "ui.pick_layout_theme": "Выберите макет и тему. Печатайте на странице резюме, чтобы сохранить стилизованный PDF.", "ui.language": "Язык", "ui.template": "Шаблон", "ui.theme": "Тема", "ui.open_new_tab": "Открыть в новой вкладке", "ui.more_controls": "Дополнительные настройки", "ui.panel_hint": "Детали • Разделы • Инструменты", "ui.details": "Детали", "ui.academic_record": "Академическая запись", "ui.course_descriptions": "Описания курсов", "ui.course_skills": "Навыки по курсам", "ui.cert_descriptions": "Описания сертификаций", "ui.cert_skills": "Навыки по сертификациям", "ui.training_explanations": "Пояснения по обучению", "ui.training_skills": "Навыки по обучению", "ui.job_explanations": "Пояснения по должностям", "ui.award_explanations": "Пояснения по наградам", "ui.transcript_appendices": "Приложения к транскрипту", "ui.controls_above_resume_note": "(Управление находится над резюме.)", "ui.translation_incomplete": "Некоторый текст не удалось перевести.", "ui.retry": "Повторить", "ui.sections": "Разделы", "ui.expand_all": "Развернуть все", "ui.collapse_all": "Свернуть все", "ui.section_click_hint": "(Также можно нажимать на заголовки разделов внутри резюме.)", "ui.attachments": "Вложения", "ui.tools": "Инструменты", "ui.business_cards": "Визитки", "ui.download_vcard": "Скачать vCard", "ui.not_included_build": "(Не включено в эту сборку)", "ui.only_public_attachments": "(Только публичные вложения; приватные документы скрыты)", "ui.no_attachments_found": "(Вложения не найдены)", "ui.unlock_label": "Разблокировать:", "ui.passphrase": "Пароль", "ui.unlock_button": "Разблокировать", "ui.enter_passphrase": "Введите пароль.", "ui.incorrect": "Неверно.", "ui.unlock_failed": "Не удалось разблокировать.", "ui.business_cards_title": "Визитки", "ui.choose_design_theme": "Выберите дизайн и тему. Печатайте со страницы визитки для точного размера 3,5×2\".", "ui.back_to_resume_viewer": "← Назад к просмотру резюме", "ui.print_sheet": "Лист 10‑up", "ui.design": "Дизайн", "nav.skip_to_content": "Перейти к содержимому", "label.website": "Сайт", "label.responsibilities": "Обязанности", "label.deliverables": "Результаты", "section.summary": "Резюме", "section.core_competencies": "Ключевые компетенции", "section.experience": "Опыт работы", "section.education": "Образование", "section.certifications": "Сертификации", "section.certifications_detailed": "Сертификации (подробно)", "section.publication": "Публикация", "section.publications": "Публикации", "section.selected_training": "Выбранное обучение", "section.training": "Обучение", "section.training_military_detailed": "Обучение и военное образование (подробно)", "section.awards_recognition": "Награды и признания", "section.awards": "Награды", "section.projects": "Проекты", "section.links": "Ссылки", "section.skills": "Навыки", "section.core": "Основное", "section.education_summary": "Образование (кратко)", "section.academic_record_detailed": "Академическая запись (подробно)", "section.military_service_record": "Сведения о военной службе", "template.ats": "ATS", "template.modern": "Современный", "template.sidebar": "Боковая панель", "template.compact": "Компактный", "template.dossier": "Досье", "template.timeline": "Хронология", "template.executive": "Для руководителя", "template.federal": "Federal (USAJobs)", "template.academia": "Академический", "theme.light": "Светлая", "theme.slate": "Сланец", "theme.dark": "Тёмная", "theme.army": "Армия", "theme.navy": "Флот", "theme.midnight": "Полночь", "theme.sand": "Песок", "theme.plum": "Слива", "theme.terminal": "Терминал", "theme.cobalt": "Кобальт", "theme.graphite": "Графит", "theme.emerald": "Изумруд", "theme.ruby": "Рубин", "theme.sunset": "Закат", "theme.paper": "Бумага", "theme.forest": "Лес", "theme.copper": "Медь", "theme.ice": "Лёд", "design.classic": "Классический", "design.split": "Разделённый", "design.minimal": "Минимал", "design.band": "Полоса", "design.terminal": "Терминал", "design.centered": "По центру", "ui.qr_alt": "QR‑код (vCard)", "ui.business_card_sheet_title": "Лист визиток"}, "cs": {"ui.resume_viewer": "Prohlížeč životopisu", "ui.pick_layout_theme": "Vyberte rozvržení a motiv. Tiskněte přímo na stránce životopisu pro stylizované PDF.", "ui.language": "Jazyk", "ui.template": "Šablona", "ui.theme": "Motiv", "ui.open_new_tab": "Otevřít v nové kartě", "ui.more_controls": "Další ovládání", "ui.panel_hint": "Detaily • Sekce • Nástroje", "ui.details": "Detaily", "ui.academic_record": "Studijní záznam", "ui.course_descriptions": "Popisy předmětů", "ui.course_skills": "Dovednosti z předmětů", "ui.cert_descriptions": "Popisy certifikací", "ui.cert_skills": "Dovednosti k certifikacím", "ui.training_explanations": "Vysvětlení školení", "ui.training_skills": "Dovednosti ze školení", "ui.job_explanations": "Popisy pracovních rolí", "ui.award_explanations": "Vysvětlení ocenění", "ui.transcript_appendices": "Přílohy přepisů", "ui.controls_above_resume_note": "(Ovládací prvky jsou nad životopisem.)", "ui.translation_incomplete": "Některý text se nepodařilo přeložit.", "ui.retry": "Zkusit znovu", "ui.sections": "Sekce", "ui.expand_all": "Rozbalit vše", "ui.collapse_all": "Sbalit vše", "ui.section_click_hint": "(Můžete také kliknout na nadpis sekce přímo v životopisu.)", "ui.attachments": "Přílohy", "ui.tools": "Nástroje", "ui.business_cards": "Vizitky", "ui.download_vcard": "Stáhnout vCard", "ui.not_included_build": "(Není zahrnuto v této sestavě)", "ui.only_public_attachments": "(Zahrnuty jsou pouze veřejné přílohy; soukromé dokumenty jsou skryté)", "ui.no_attachments_found": "(Žádné přílohy nenalezeny)", "ui.unlock_label": "Odemknout:", "ui.passphrase": "Heslová fráze", "ui.unlock_button": "Odemknout", "ui.enter_passphrase": "Zadejte heslovou frázi.", "ui.incorrect": "Nesprávné.", "ui.unlock_failed": "Odemknutí selhalo.", "ui.business_cards_title": "Vizitky", "ui.choose_design_theme": "Vyberte design a motiv. Tiskněte ze stránky vizitky pro přesný rozměr 3,5×2\".", "ui.back_to_resume_viewer": "← Zpět na prohlížeč životopisu", "ui.print_sheet": "Tisk 10 na stránku", "ui.design": "Design", "nav.skip_to_content": "Přeskočit na obsah", "label.website": "Web", "label.responsibilities": "Povinnosti", "label.deliverables": "Výstupy", "section.summary": "Shrnutí", "section.core_competencies": "Klíčové kompetence", "section.experience": "Praxe", "section.education": "Vzdělání", "section.certifications": "Certifikace", "section.certifications_detailed": "Certifikace (podrobně)", "section.publication": "Publikace", "section.publications": "Publikace", "section.selected_training": "Vybraná školení", "section.training": "Školení", "section.training_military_detailed": "Školení a vojenské vzdělání (podrobně)", "section.awards_recognition": "Ocenění a uznání", "section.awards": "Ocenění", "section.projects": "Projekty", "section.links": "Odkazy", "section.skills": "Dovednosti", "section.core": "Jádro", "section.education_summary": "Vzdělání (souhrn)", "section.academic_record_detailed": "Studijní záznam (podrobně)", "section.military_service_record": "Záznam o vojenské službě", "template.ats": "ATS", "template.modern": "Moderní", "template.sidebar": "Postranní panel", "template.compact": "Kompaktní", "template.dossier": "Dossier", "template.timeline": "Časová osa", "template.executive": "Executive", "template.federal": "Federální (USAJobs)", "template.academia": "Akademický", "theme.light": "Světlý", "theme.slate": "Břidlice", "theme.dark": "Tmavý", "theme.army": "Armáda", "theme.navy": "Námořnictvo", "theme.midnight": "Půlnoc", "theme.sand": "Písek", "theme.plum": "Švestka", "theme.terminal": "Terminál", "theme.cobalt": "Kobalt", "theme.graphite": "Grafit", "theme.emerald": "Smaragd", "theme.ruby": "Rubín", "theme.sunset": "Soumrak", "theme.paper": "Papír", "theme.forest": "Les", "theme.copper": "Měď", "theme.ice": "Led", "design.classic": "Klasický", "design.split": "Rozdělený", "design.minimal": "Minimal", "design.band": "Pás", "design.terminal": "Terminál", "design.centered": "Na střed", "ui.qr_alt": "QR kód (vCard)", "ui.business_card_sheet_title": "Aršík vizitek"}};
+
+  function getQueryLang(){
+    try{ return (new URLSearchParams(window.location.search)).get('lang') || ''; }catch(e){ return ''; }
+  }
+  function normalizeLang(lang){
+    lang = (lang || '').toLowerCase();
+    if (lang.startsWith('en')) return 'en';
+    if (lang.startsWith('es')) return 'es';
+    if (lang.startsWith('de')) return 'de';
+    if (lang.startsWith('pl')) return 'pl';
+    if (lang.startsWith('ro')) return 'ro';
+    if (lang.startsWith('ru')) return 'ru';
+    if (lang.startsWith('cs') || lang.startsWith('cz')) return 'cs';
+    return 'en';
+  }
+  function t(lang, key){
+    const L = (I18N && I18N[lang]) ? I18N[lang] : (I18N && I18N.en ? I18N.en : {});
+    return (L && L[key]) || (I18N && I18N.en && I18N.en[key]) || key;
+  }
+  function applyI18n(lang){
+    const l = normalizeLang(lang);
+    document.documentElement.lang = l;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (!key) return;
+      el.textContent = t(l, key);
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-i18n-placeholder');
+      if (!key) return;
+      el.setAttribute('placeholder', t(l, key));
+    });
+    return l;
+  }
+
+  // --------- Full-content translation (client-side) ----------
+  // Default provider order: Google Translate (gtx) → MyMemory fallback.
+  // NOTE: This runs in the viewer's browser and sends resume text to the translation provider.
+  // For privacy-sensitive builds, keep language = English, or replace fetchTranslation() with a
+  // local translation-pack lookup.
+
+  let __txAbort = null;
+
+  function isProbablyTranslatable(text){
+    if (!text) return false;
+    const t = String(text).trim();
+    if (!t) return false;
+
+    // Skip emails/phones/urls
+    if (/^[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}$/.test(t)) return false;
+    // Skip intentionally masked emails (keep exactly as-is)
+    if (t.includes("@") && (t.includes("…") || t.includes("...") || t.includes("*"))) return false;
+    if (/^(https?:\/\/|www\.)/i.test(t)) return false;
+    if (/^\+?\d[\d\s().-]{6,}$/.test(t)) return false;
+
+    // Skip short codes (e.g., CMIS 440, GCIA)
+    if (t.length <= 14 && /^[A-Z0-9/\s.-]+$/.test(t)) return false;
+
+    // Must have letters
+    if (!/[A-Za-zÀ-žА-я]/.test(t)) return false;
+
+    return true;
+  }
+
+  function cacheKey(lang){ return "resume_tx_cache_" + lang; }
+  function loadCache(lang){
+    try{ return JSON.parse(localStorage.getItem(cacheKey(lang)) || "{}"); }catch(e){ return {}; }
+  }
+  function saveCache(lang, cache){
+    try{ localStorage.setItem(cacheKey(lang), JSON.stringify(cache)); }catch(e){}
+  }
+
+  async function fetchGoogle(lang, text, signal){
+    // Unofficial endpoint commonly used for lightweight client-side translation.
+    const url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl="
+      + encodeURIComponent(lang)
+      + "&dt=t&q=" + encodeURIComponent(text);
+
+    const res = await fetch(url, { method: "GET", signal });
+    if (res.status === 429 || res.status === 500 || res.status === 502 || res.status === 503){
+      throw new Error("HTTP " + res.status);
+    }
+    if (!res.ok) throw new Error("HTTP " + res.status);
+
+    const json = await res.json();
+    // Response shape: [[ [translated, original, ...], ...], ...]
+    if (Array.isArray(json) && Array.isArray(json[0])){
+      return json[0].map(part => part && part[0] ? String(part[0]) : "").join("");
+    }
+    throw new Error("Bad response");
+  }
+
+  async function fetchMyMemory(lang, text, signal){
+    const url = "https://api.mymemory.translated.net/get?q=" + encodeURIComponent(text) + "&langpair=en|" + encodeURIComponent(lang);
+    let lastErr = null;
+    for (let attempt = 0; attempt < 4; attempt++){
+      const res = await fetch(url, { method: "GET", signal });
+      if (res.status === 429 || res.status === 500 || res.status === 502 || res.status === 503){
+        lastErr = new Error("HTTP " + res.status);
+        // Exponential backoff to handle rate limiting
+        await new Promise(r => setTimeout(r, 250 * Math.pow(2, attempt)));
+        continue;
+      }
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      const json = await res.json();
+      const out = (json && json.responseData && json.responseData.translatedText)
+        ? String(json.responseData.translatedText)
+        : "";
+      return out;
+    }
+    throw lastErr || new Error("Translation failed");
+  }
+
+  async function fetchTranslation(lang, text, signal){
+    // Provider order: Google → MyMemory
+    try{
+      return await fetchGoogle(lang, text, signal);
+    }catch(e){
+      // Fallback
+      return await fetchMyMemory(lang, text, signal);
+    }
+  }
+
+  async function translateText(lang, text, cache, signal){
+    if (cache && cache[text]) return cache[text];
+
+    // Chunk very long text to avoid provider limits.
+    const MAX = 900;
+    if (text.length > MAX){
+      const chunks = [];
+      let cur = "";
+      const toks = String(text).split(/(\s+)/);
+      for (const tok of toks){
+        if ((cur + tok).length > MAX && cur.trim()){
+          chunks.push(cur);
+          cur = tok;
+        }else{
+          cur += tok;
+        }
+      }
+      if (cur.trim()) chunks.push(cur);
+      const outParts = [];
+      for (const ch of chunks){
+        outParts.push(await translateText(lang, ch, cache, signal));
+      }
+      const joined = outParts.join("");
+      cache[text] = joined;
+      return joined;
+    }
+
+    const translated = await fetchTranslation(lang, text, signal);
+    const cleaned = translated ? String(translated).replace(/\s+/g, " ").trim() : "";
+    if (cleaned){
+      cache[text] = cleaned;
+      return cleaned;
+    }
+    return text;
+  }
+
+  function splitWhitespace(value){
+    const m = String(value || "").match(/^(\s*)([\s\S]*?)(\s*)$/);
+    return { pre: m ? m[1] : "", core: m ? m[2] : String(value || ""), post: m ? m[3] : "" };
+  }
+
+  function collectTextNodes(root){
+    const nodes = [];
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(node){
+        if (!node || !node.nodeValue) return NodeFilter.FILTER_REJECT;
+        if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+        const parent = node.parentElement;
+        if (!parent) return NodeFilter.FILTER_REJECT;
+
+        // Hard excludes
+        const tag = (parent.tagName || "").toLowerCase();
+        if (tag === "script" || tag === "style" || tag === "noscript") return NodeFilter.FILTER_REJECT;
+        if (tag === "code" || tag === "pre" || tag === "kbd" || tag === "samp") return NodeFilter.FILTER_REJECT;
+        if (parent.closest("svg, math")) return NodeFilter.FILTER_REJECT;
+        if (parent.closest("input, textarea, select, option")) return NodeFilter.FILTER_REJECT;
+        if (parent.closest("[hidden], [aria-hidden='true']")) return NodeFilter.FILTER_REJECT;
+        if (parent.closest("[data-no-tx]")) return NodeFilter.FILTER_REJECT;
+        if (parent.closest("[data-i18n]")) return NodeFilter.FILTER_REJECT;
+
+        const trimmed = node.nodeValue.trim();
+        if (!isProbablyTranslatable(trimmed)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+
+    let n;
+    while ((n = walker.nextNode())){
+      nodes.push(n);
+    }
+    return nodes;
+  }
+
+  function collectAttrTargets(root){
+    const out = [];
+    const els = root.querySelectorAll('[alt],[title],[aria-label]');
+    els.forEach(el => {
+      if (el.closest('[data-no-tx]')) return;
+      if (el.closest('[data-i18n]')) return;
+      ['alt','title','aria-label'].forEach(attr => {
+        if (!el.hasAttribute(attr)) return;
+        const v = el.getAttribute(attr);
+        if (!v || !v.trim()) return;
+        if (!isProbablyTranslatable(v.trim())) return;
+        if (!el.__origAttr) el.__origAttr = {};
+        if (el.__origAttr[attr] === undefined) el.__origAttr[attr] = v;
+        out.push({ el, attr, key: v.trim() });
+      });
+    });
+    return out;
+  }
+
+  function showTxBanner(lang, failures){
+    let banner = document.getElementById("txBanner");
+    if (!failures){
+      if (banner) banner.style.display = "none";
+      return;
+    }
+    if (!banner){
+      banner = document.createElement("div");
+      banner.id = "txBanner";
+      banner.setAttribute("role","status");
+      banner.style.position = "fixed";
+      banner.style.bottom = "12px";
+      banner.style.right = "12px";
+      banner.style.zIndex = "9999";
+      banner.style.padding = "10px 12px";
+      banner.style.border = "1px solid rgba(36,43,56,0.9)";
+      banner.style.borderRadius = "12px";
+      banner.style.background = "rgba(11,15,20,0.95)";
+      banner.style.color = "#e6e8ee";
+      banner.style.boxShadow = "0 10px 30px rgba(0,0,0,0.35)";
+      document.body.appendChild(banner);
+    }
+    banner.style.display = "block";
+    banner.innerHTML = `
+      <span>${t(lang, "ui.translation_incomplete")}</span>
+      <span style="opacity:.85;margin-left:6px">(${failures})</span>
+      <button id="txRetry" style="margin-left:8px;padding:6px 10px;border-radius:10px;border:1px solid rgba(36,43,56,0.9);background:#111827;color:#e6e8ee;cursor:pointer">${t(lang, "ui.retry")}</button>
+    `;
+    const btn = document.getElementById("txRetry");
+    if (btn) btn.onclick = () => translatePage(lang);
+  }
+
+  async function translatePage(lang){
+    const l = normalizeLang(lang);
+
+    const root = document.getElementById("main") || document.body;
+
+    // Switching back to English → restore originals if we have them.
+    if (l === "en"){
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+      let n;
+      while ((n = walker.nextNode())){
+        if (n && n.__orig !== undefined){
+          n.nodeValue = n.__orig;
+        }
+      }
+      // Restore translated attributes
+      root.querySelectorAll('[alt],[title],[aria-label]').forEach(el => {
+        const m = el.__origAttr;
+        if(!m) return;
+        for (const k in m){
+          try{ el.setAttribute(k, m[k]); }catch(e){}
+        }
+      });
+
+      showTxBanner(l, 0);
+      return;
+    }
+
+    // Abort prior run (if any)
+    if (__txAbort){
+      try{ __txAbort.abort(); }catch(e){}
+    }
+    __txAbort = new AbortController();
+
+    const nodes = collectTextNodes(root);
+    const attrs = collectAttrTargets(root);
+
+    // Capture originals and reset to English before translating.
+    nodes.forEach(node => {
+      if (node.__orig === undefined) node.__orig = node.nodeValue;
+      node.nodeValue = node.__orig;
+    });
+    attrs.forEach(it => {
+      if (it.el && it.el.__origAttr && it.el.__origAttr[it.attr] !== undefined){
+        it.el.setAttribute(it.attr, it.el.__origAttr[it.attr]);
+      }
+    });
+
+    const cache = loadCache(l);
+
+    const textToNodes = new Map();
+    const uniq = [];
+
+    nodes.forEach(node => {
+      const raw = node.nodeValue || "";
+      const parts = splitWhitespace(raw);
+      const key = (parts.core || "").trim();
+      if (!isProbablyTranslatable(key)) return;
+      node.__tx = { pre: parts.pre, post: parts.post, key };
+      if (!textToNodes.has(key)){
+        textToNodes.set(key, []);
+        uniq.push(key);
+      }
+      textToNodes.get(key).push(node);
+    });
+
+    const textToAttrs = new Map();
+    attrs.forEach(it => {
+      const key = it.key;
+      if (!textToAttrs.has(key)){
+        textToAttrs.set(key, []);
+        uniq.push(key);
+      }
+      textToAttrs.get(key).push(it);
+    });
+
+    const limit = 2;
+    let idx = 0;
+    let failures = 0;
+
+    async function worker(){
+      while (idx < uniq.length){
+        const i = idx++;
+        const orig = uniq[i];
+        let tr = orig;
+        try{
+          tr = await translateText(l, orig, cache, __txAbort.signal);
+        }catch(e){
+          failures++;
+          tr = orig;
+        }
+
+        const list = textToNodes.get(orig) || [];
+        list.forEach(node => {
+          const meta = node.__tx || { pre: "", post: "" };
+          node.nodeValue = (meta.pre || "") + tr + (meta.post || "");
+        });
+
+        const alist = textToAttrs.get(orig) || [];
+        alist.forEach(it => {
+          try{ it.el.setAttribute(it.attr, tr); }catch(e){}
+        });
+
+        // gentle throttle
+        await new Promise(r => setTimeout(r, 60));
+      }
+    }
+
+    await Promise.all(Array.from({length: limit}, worker));
+
+    saveCache(l, cache);
+    showTxBanner(l, failures);
+  }
+
+  // Initialize from URL (?lang=xx) or last preference.
+  let currentLang = applyI18n(getQueryLang() || (localStorage.getItem('resume_lang') || 'en'));
+    translatePage(currentLang);
+  try{ localStorage.setItem('resume_lang', currentLang); }catch(e){}
+
+  // Viewer controls live outside the resume document.
+  // This listener lets the parent page (dist/index.html) toggle verbosity without
+  // embedding dropdowns or controls inside the resume itself.
+  (function () {
+    function setAllSectionsOpen(open){
+      var list = document.querySelectorAll('details.section-details');
+      for (var i=0; i<list.length; i++){
+        list[i].open = !!open;
+      }
+    }
+
+    window.addEventListener("message", function (event) {
+      const msg = event.data || {};
+      if (msg.type === "setClass" && typeof msg.className === "string") {
+        document.documentElement.classList.toggle(msg.className, !!msg.enabled);
+      }
+      if (msg.type === "setAllSectionsOpen") {
+        setAllSectionsOpen(!!msg.open);
+      }
+      if (msg.type === "setLang" && typeof msg.lang === "string") {
+        currentLang = applyI18n(msg.lang);
+        translatePage(currentLang);
+        try{ localStorage.setItem('resume_lang', currentLang); }catch(e){}
+      }
+    });
+
+    // Ensure printing always includes the full resume (even if sections are collapsed)
+    var prevOpen = null;
+    window.addEventListener('beforeprint', function(){
+      var list = Array.prototype.slice.call(document.querySelectorAll('details.section-details'));
+      prevOpen = list.map(function(d){ return d.open; });
+      list.forEach(function(d){ d.open = true; });
+    });
+    window.addEventListener('afterprint', function(){
+      if (!prevOpen) return;
+      var list = Array.prototype.slice.call(document.querySelectorAll('details.section-details'));
+      list.forEach(function(d, i){ d.open = !!prevOpen[i]; });
+      prevOpen = null;
+    });
+  })();
+</script>
+
+</body>
+</html>
